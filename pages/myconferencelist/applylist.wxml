@@ -1,0 +1,34 @@
+<view class="container">
+  <view class="weui-panel weui-panel_access">
+    <view class="my-reserve-list" wx:if="{{applyList&&applyList.length>0}}">
+      <block wx:for="{{applyList}}" wx:key="item.markId">
+        <view class="weui-media-box weui-media-box_appmsg" data-id="{{item.id}}">
+          <view class="my-reserve-img">
+            <image src="{{item.avatar}}" mode="aspectFill" class="weui-media-box__thumb  userinfo-avatar"></image>
+          </view>
+          <view class="my-reserve-text">
+            <view class="my-reserve-title">{{item.nickname}}</view>
+            <text>报名时间：{{item.updatetime}}</text>
+            <text>{{item.content}}{{item.markId}}</text>
+          </view>
+          <view wx:if="{{account==userpost.account}}" class="weui-cell__ft" bindtap="tapApplyManage" data-markid="{{item.markId}}">...</view>
+
+        </view>
+      </block>
+      <view hidden="{{hasMore}}" class="loading complete">已加载全部</view>
+    </view>
+    <view wx:elif="{{!hasMore&&applyList.length==0}}" class="loading complete">暂无报名</view>
+  </view>
+</view>
+<view>
+  <loading hidden="{{loadingHidden}}">
+    加载中...
+  </loading>
+</view>
+
+<action-sheet hidden="{{actionSheetHidden}}" bindchange="actionSheetbindchange">
+  <block wx:for-items="{{actionSheetItems}}" wx:key="item.bindtap">
+    <action-sheet-item bindtap="bindMenu{{item.bindtap}}">{{item.txt}}</action-sheet-item>
+  </block>
+  <action-sheet-cancel class="cancel">取消</action-sheet-cancel>
+</action-sheet>

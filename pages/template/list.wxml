@@ -1,0 +1,37 @@
+<template name="postList">
+  <view class="weui-panel__bd">
+
+
+    <view wx:if="{{postList.length>0}}">
+      <block wx:for="{{postList}}" wx:key="item.id">
+        <navigator url="../detail/detail?postid={{item.id}}" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
+          <view class="weui-media-box__hd weui-media-box__hd_in-appmsg" style="width:200rpx!important;">
+            <image src="{{item.cover}}" mode="aspectFit" class="weui-media-box__thumb" style="height: 100%;"></image>
+          </view>
+          <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+            <view style="color:#000000;font-size: 28rpx;font-weight:bold">{{item.title}}</view>
+            <view style="color:#888888;font-size: 24rpx;">时间：{{item.birthland}}</view>
+            <view style="color:#888888;font-size: 24rpx;">场地：{{item.position}}</view>
+            <view style="color:#888888;font-size: 24rpx;">费用：{{item.bangPrice}}元</view>
+
+
+            <view style="display: flex;flex-direction:row;flex-wrap:nowrap;">
+              <view style="color:#f7982a;font-size: 24rpx;width:80%">已报名：{{item.feelCount}}人/{{item.applymax}}</view>
+              <view style="color:#888888;font-size: 24rpx;margin-right: 20rpx;width:120rpx" wx:if="{{account==item.account}}">我发布的
+              </view>
+            </view>
+          </view>
+          <!--
+            <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+              <view style="width:100%">
+                <image src="{{item.sortPic}}" mode="widthFix" style="width: 100%;"></image>
+              </view>
+            </view>
+            -->
+        </navigator>
+      </block>
+      <view hidden="{{hasMore}}" class="loading complete">已加载全部</view>
+    </view>
+    <view wx:elif="{{!hasMore&&postList.length==0}}" class="loading complete">暂无活动</view>
+  </view>
+</template>

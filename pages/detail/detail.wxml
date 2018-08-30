@@ -1,0 +1,211 @@
+<view class="container">
+  <view class="container-body space-content">
+    <view class="space-top">
+      <view class="space-banner" style="{{coverimgs.length==0?'display:none':''}}" bindtap="imgPreview">
+        <swiper autoplay="{{true}}" interval="{{4000}}" duration="{{1000}}" bindchange="setCurrent">
+          <block wx:for="{{coverimgs}}" wx:key="{{item.index}}">
+            <swiper-item>
+              <image src="{{item}}" mode="aspectFill" class="slide-image" wx:if="{item!=''}" />
+            </swiper-item>
+          </block>
+        </swiper>
+        <view class="number-banner">
+          <text>{{currentIndex>9?currentIndex:'0'+currentIndex}}</text>
+          <text>/{{coverimgs.length>9?coverimgs.length:'0'+coverimgs.length}}</text>
+        </view>
+      </view>
+      <view class="space-info">
+        <view class="space-title">{{userpost.title}}</view>
+        <view class="space-tags">
+          <text wx:for="{{coverimgs.TagIDs}}" wx:key="*this">{{item}}</text>
+        </view>
+        <view class="space-list">
+          <view class="space-item">
+            <text class="text-left">已报名人数：</text>
+            <text class="text-right">
+              <text class="text-orange">{{userpost.feelCount}}/{{userpost.applymax}}</text>
+            </text>
+          </view>
+          <view class="space-item">
+            <text class="text-left">活动类型：</text>
+            <text class="text-right">{{userpost.sortName}}</text>
+          </view>
+          <view class="space-item">
+            <text class="text-left">开始时间：</text>
+            <text class="text-right">
+              <text class="text-red">{{userpost.birthland}} {{userpost.week}}</text>
+            </text>
+          </view>
+          <view class="space-item" wx:if="{{userpost.endtime!=''}}">
+            <text class="text-left">结束时间：</text>
+            <text class="text-right">
+              <text class="text-red">{{userpost.endtime}}</text>
+            </text>
+          </view>
+          <view class="space-item" wx:if="{{userpost.applystarttime!=''}}">
+            <text class="text-left">报名开始时间：</text>
+            <text class="text-right">
+              <text class="text-red">{{userpost.applystarttime}}</text>
+            </text>
+          </view>
+          <view class="space-item" wx:if="{{userpost.applyendtime!=''}}">
+            <text class="text-left">报名截止时间：</text>
+            <text class="text-right">
+              <text class="text-red">{{userpost.applyendtime}}</text>
+            </text>
+          </view>
+          <view class="space-item">
+            <text class="text-left">每人预估费用：</text>
+            <text class="text-right">{{userpost.bangPrice}}元</text>
+          </view>
+          <view class="space-item" style="{{userpost.phone==''?'display:none':''}}">
+            <text class="text-left">联系电话：</text>
+            <text class="text-right" bindtap="callContact" data-phonenumber="{{userpost.phone}}">{{userpost.phone}}</text>
+          </view>
+          <view class="space-item" wx:if="{{userpost.groupName!=''}}">
+            <text class="text-left">社群：</text>
+            <text class="text-right">{{userpost.groupName}}</text>
+          </view>
+          <view class="space-item" wx:if="{{userpost.brand!=''}}">
+            <text class="text-left">所在地：</text>
+            <text class="text-right">{{userpost.brand}}</text>
+          </view>
+
+          <view class="space-item" style="{{userpost.position==''?'display:none':''}}">
+            <text class="text-left">场地：</text>
+            <text class="text-right" data-address="{{userpost.position}}" data-latitude="{{userpost.latitude}}" data-longitude="{{userpost.longitude}}">{{userpost.position}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="space-block">
+      <view class="space-block-title">活动说明</view>
+      <view class="space-block-content">
+        <text>{{userpost.content}}</text>
+      </view>
+    </view>
+    <view class="space-block">
+      <view class="space-block-content">
+        <view style=" display:flex;">
+          <view class="item1" style="flex:0 0 80rpx">
+            <image src="{{avatar}}" mode="aspectFill" class="weui-media-box__thumb  userinfo-avatar-small" bindtap="bindTapHome" data-account="{{userpost.account}}"></image>
+          </view>
+          <view class="item1" style="margin-left:10rpx; ">
+            <view style="display:flex;align-items:center ">
+              <view style="font-size: 24rpx;color: #555;">{{userpost.nickname}} </view>
+              <view wx:if="{{userpost.sex=='1'}}" style="margin-left:6rpx; ">
+                <image src="../../images/man.png" style="width: 24rpx; height: 24rpx; display: block" /> </view>
+              <view wx:else>
+                <image src="../../images/women.png" style="width: 24rpx; height: 24rpx; display: block" /> </view>
+            </view>
+            <view style="font-size: 24rpx;color: #555;">发布于{{userpost.updatetimeShow}} {{userpost.hitCount}}人看过</view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="space-block" wx:if="{{userpost.oldLevel==''}}">
+      <view class="space-block-title">已经报名</view>
+      <view class="space-block-content">
+        <scroll-view scroll-x="true" style=" white-space: nowrap; overflow:scroll;width:100%" bindscrolltolower="pullUpLoadApply">
+          <block wx:for="{{applyList}}" wx:key="item.id">
+            <view style=" display: inline-block" wx:if="{{storage>0&&(index+1)>storage}}">
+              <image src="{{item.avatar}}" mode="aspectFill" class="weui-media-box__thumb  userinfo-avatar userinfo-avatar-icon" data-icon="替" bindtap="bindTapHome" data-url="{{item.avatar}}" data-account="{{item.account}}"></image>
+            </view>
+            <view style=" display: inline-block" wx:else>
+              <image src="{{item.avatar}}" mode="aspectFill" class="weui-media-box__thumb userinfo-avatar" bindtap="bindTapHome" data-url="{{item.avatar}}" data-account="{{item.account}}"></image>
+            </view>
+          </block>
+        </scroll-view>
+        <view class="weui-cell__bd" style="display: flex;justify-content: center;font-size: 30rpx;color: #333;  padding: 10rpx;" wx:if="{{account==userpost.account||userpost.isSinglePost=='1'}}" bindtap="bindApplyList">
+          查看明细
+        </view>
+      </view>
+    </view>
+
+
+    <view class="space-block" wx:if="{{userpost.oldLevel==''}}">
+      <view class="space-block-title">留言</view>
+      <view class="space-block-content">
+        <view class="weui-cells" wx:if="{{commentList.length>0}}">
+          <block wx:for="{{commentList}}" wx:key="item.id">
+            <view class="weui-cell" style="width:90%">
+              <view style="display:flex;flex-wrap: nowrap;padding:5rpx 10rpx;width:100%">
+                <view style="padding:5rpx 10rpx;">
+                  <image src="{{item.avatar}}" mode="aspectFill" class="weui-media-box__thumb  userinfo-avatar-small" bindtap="bindTapHome" data-url="{{item.avatar}}" data-account="{{item.account}}"></image>
+                </view>
+                <view style="display:inline-flex;flex-direction:column;width:100%;padding:5rpx 10rpx;">
+                  <view style="display:inline-flex;flex-direction:row;width:100%;align-items:center">
+                    <view style="width:60%;font-size:30rpx;">{{item.usernickname}}</view>
+                    <view class="space-time" style="width:40%">{{item.updatetimeShow}}</view>
+                  </view>
+                  <view class="apply-text">
+                    <text>{{item.content}}</text>
+                  </view>
+                  <view style="display:inline-flex;flex-direction:row;width:100%;align-items:center">
+                    <view style="width:60%;font-size:30rpx;">
+                      <text wx:if="{{userpost.account==account||item.account==account}}" data-markid="{{item.markId}}" bindtap="delComment">删除</text>
+                    </view>
+                    <view class="likeinfo" style="width:40%">
+                      <image wx:if="{{item.isLike=='1'}}" class="likebtn" src="../../images/zan.png" data-markid="{{item.markId}}"></image>
+                      <image wx:else src="../../images/unzan.png" class="likebtn" bindtap="tapLike" data-markid="{{item.markId}}"></image>
+                      <text class="likeinfo_count">{{item.likes}}</text>
+                    </view>
+                  </view>
+                </view>
+              </view>
+              <view class="weui-cell__ft"></view>
+            </view>
+          </block>
+          <view class="loading complete" hidden="{{hasMore}}">已加载全部</view>
+        </view>
+        <view wx:else class="loading complete">暂无留言</view>
+      </view>
+    </view>
+  </view>
+  <button size="default" style="width: 100rpx; height: 100rpx; background-color: #fff;" class="edit-btn"  wx:if="{{userpost.account==account}}" bindtap="tapEventManage"></button>
+  <button size="default" style="width: 100rpx; height: 100rpx; background-color: #fff;" class="home-btn" bindtap="bindTapIndex"></button>
+  <modal hidden="{{modalHidden}}" title="请输入口令" confirm-text="报名" cancel-text="放弃" bindcancel="modalCancel" bindconfirm="modalConfirm" no-cancel="{{nocancel}}">
+    <input bindinput="bindInputSize" placeholder="口令" value="{{size}}" />
+  </modal>
+
+  <!--
+<view >
+ <image src="/images/add.png" class="img-style" animation="{{animCollect}}" bindtap="collect" style="background: #00FF00"></image>
+  <image src="/images/add.png" class="img-style" animation="{{animTranspond}}" bindtap="transpond"></image>
+  <image src="/images/add.png" class="img-style" animation="{{animInput}}" bindtap="input"></image>
+  <image src="/images/add.png" class="img-plus-style" animation="{{animPlus}}" bindtap="plus"></image>
+</view>
+
+-->
+
+
+
+
+  <form report-submit bindsubmit="bindSubmitActivities">
+    <view class="container-footer" style="width:100%" wx:if="{{userpost.oldLevel==''}}">              
+        <view class="weui-flex">
+            <view class="weui-flex__item"><text class="comment-btn" bindtap="bindTapComment">留言</text></view>
+            <view class="weui-flex__item"><button formType="submit" class="apply-btn" hover-class="btn-blue-hover" disabled="{{disabled}}">{{btnName}}</button></view>
+        </view>
+      
+    </view>
+  </form>
+</view>
+
+
+<action-sheet hidden="{{actionSheetHidden}}" bindchange="actionSheetbindchange">
+  <block wx:for-items="{{actionSheetItems}}" wx:key="item.bindtap">
+    <action-sheet-item bindtap="bindMenu{{item.bindtap}}">{{item.txt}}</action-sheet-item>
+  </block>
+  <action-sheet-cancel class="cancel">取消</action-sheet-cancel>
+</action-sheet>
+
+<modal hidden="{{emailModalHidden}}" title="请输入邮箱" confirm-text="下载" cancel-text="放弃" bindcancel="emailModalCancel" bindconfirm="emailModalConfirm" no-cancel="{{nocancel}}">
+  <input bindinput="bindInputEmail" placeholder="邮箱" value="{{email}}" />
+</modal>
+
+<view animation="{{animationData}}" class="drawer_box" wx:if="{{showModalStatus&&userpost.weburl!=''}}">
+  <image src="{{userpost.weburl}}" mode="aspectFit"  data-src="{{userpost.weburl}}" style="width:100%;margin:10px;"  bindtap="previewImage"></image>
+</view>

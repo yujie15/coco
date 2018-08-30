@@ -1,0 +1,72 @@
+{
+  "pages": [
+    "pages/group/index",
+    "pages/group/add",
+    "pages/index/index",
+    "pages/user/my",
+    "pages/detail/detail",
+    "pages/logs/logs",
+    "pages/test/tab",
+    "pages/dialog/dialog",
+    "pages/add/add",
+    "pages/add/show",
+    "pages/user/about",
+    "pages/detail/apply",
+    "pages/question/question",
+    "pages/map/map",
+    "pages/myconferencelist/myconferencelist",
+    "pages/search/search",
+    "pages/search/list",
+    "pages/home/home",
+    "pages/search/city",
+    "pages/message/index",
+    "pages/detail/switch",
+    "pages/myconferencelist/applylist",
+    "pages/feature/feature",
+    "pages/feature/add",
+    "pages/group/show",
+    "pages/group/detail",
+    "pages/group/member",
+    "pages/group/event",
+    "pages/search/group",
+    "pages/template/userlist",
+    "pages/group/bl",
+    "pages/coco/group",
+    "pages/coco/event",
+    "pages/template/head",
+    "pages/test/11",
+    "pages/coco/upload"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "可可社群活动",
+    "navigationBarTextStyle": "black",
+    "enablePullDownRefresh": false
+  },
+  "tabBar": {
+    "color": "#333",
+    "selectedColor": "#1296db",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/coco/event",
+        "text": "活动",
+        "iconPath": "images/event_icon.png",
+        "selectedIconPath": "images/event_icon_HL.png"
+      },
+      {
+        "pagePath": "pages/coco/group",
+        "text": "社群",
+        "iconPath": "images/group_icon.png",
+        "selectedIconPath": "images/group_icon_HL.png"
+      },
+      {
+        "pagePath": "pages/group/index",
+        "text": "发现",
+        "iconPath": "images/index_icon.png",
+        "selectedIconPath": "images/index_icon_HL.png"
+      }
+    ]
+  }
+}

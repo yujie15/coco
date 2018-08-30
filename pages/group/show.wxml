@@ -1,0 +1,52 @@
+<view class="container">
+  <view class="weui-form-preview">
+    <view class="weui-form-preview__bd">
+      <!--
+      <view class="weui-form-preview__item">
+        <view class="weui-form-preview__label">分类</view>
+        <view class="weui-form-preview__value">{{type}}</view>
+      </view>
+      -->
+      <view class="weui-form-preview__item">
+        <view class="weui-form-preview__label">名称</view>
+        <view class="weui-form-preview__value">{{title}}</view>
+      </view>
+      <view class="weui-form-preview__item" wx:if="{{school!=''}}">
+        <view class="weui-form-preview__label">所在地</view>
+        <view class="weui-form-preview__value">{{school}}</view>
+      </view>
+      <view class="weui-form-preview__item" wx:if="{{school!=''}}">
+        <view class="weui-form-preview__label">公众号</view>
+        <view class="weui-form-preview__value">{{mpName}}</view>
+      </view>
+      <view class="weui-form-preview__item">
+        <view class="weui-form-preview__label">{{teamView}}</view>
+        <view class="weui-form-preview__value"></view>
+      </view>
+
+      <view class="weui-form-preview__item">
+        <view class="weui-form-preview__label">介绍</view>
+        <view class="weui-form-preview__value">{{content}}</view>
+      </view>
+      <view class="weui-form-preview__item">
+        <view class="img-upload">
+          <view class="img-item" wx:for="{{uploadurls}}" wx:key="{{index}}">
+            <image src="{{item}}" mode="aspectFill"></image>
+          </view>
+        </view>
+      </view>
+
+
+    </view>
+    <form report-submit="true" bindsubmit="tapSubmit">
+      <view class="weui-form-preview__ft">
+        <view bindtap="tapModify" class="weui-form-preview__btn weui-form-preview__btn_default" hover-class="weui-form-preview__btn_active">返回修改</view>
+        <button class="weui-form-preview__btn weui-form-preview__btn_primary" hover-class="weui-form-preview__btn_active" form-type="submit">确认{{submitName}}</button>
+      </view>
+    </form>
+
+    <loading hidden="{{loadingHidden}}">
+      提交中...
+    </loading>
+  </view>
+</view>

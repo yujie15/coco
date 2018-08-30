@@ -1,0 +1,46 @@
+<view class="container">
+  <view class="weui-panel weui-panel_access">
+    <view class="my-reserve-list" wx:if="{{postList&&postList.length>0}}">
+      <block wx:for="{{postList}}" wx:key="item.id">
+        <view class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active" bindtap="delFeel" bindtouchstart="mytouchstart" bindtouchend="mytouchend" data-id="{{item.id}}">
+          <!--<navigator url="../detail/detail?postid={{item.id}}" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">-->
+          <view class="my-reserve-img">
+            <image src="{{item.sortPic}}" mode="widthFix"></image>
+          </view>
+          <view class="my-reserve-text">
+            <view class="my-reserve-title">{{item.title}}</view>
+            <text>开始时间：{{item.birthland}} {{item.week}}</text>
+            <text>{{timeName}}：{{item.updatetime}}</text>
+            <text>已报名：{{item.feelCount}}人/{{item.applymax}}</text>
+          </view>
+        </view>
+        <view style="display: flex;justify-content: center;" wx:if="{{type == 'publish' }}">
+          <view bindtap="imgPreview" data-bigcoverimgs="{{item.wxqrcodeUrl}}" style="margin:0px 10px;">
+            <text>二维码</text>
+          </view>        
+          <view bindtap="bindApplyList" data-id="{{item.id}}" style="margin:0px 10px;">
+            <text>查看报名</text>
+          </view>
+          <view bindtap="modalShow" data-id="{{item.id}}" style="margin:0px 10px;">
+            <text>下载报名</text>
+          </view>
+          <view bindtap="bindAddPost" data-id="{{item.id}}" style="margin:0px 10px;">
+            <text>再发一个</text>
+          </view>          
+        </view>
+        <!--</navigator>-->
+      </block>
+      <view hidden="{{hasMore}}" class="loading complete">已加载全部</view>
+    </view>
+    <view wx:elif="{{!hasMore&&postList.length==0}}" class="loading complete">暂无活动</view>
+  </view>
+</view>
+<view>
+  <loading hidden="{{loadingHidden}}">
+    加载中...
+  </loading>
+</view>
+
+<modal hidden="{{modalHidden}}" title="请输入邮箱" confirm-text="下载" cancel-text="放弃" bindcancel="modalCancel" bindconfirm="modalConfirm" no-cancel="{{nocancel}}">
+  <input bindinput="bindInputEmail" placeholder="邮箱" value="{{email}}" />
+</modal>

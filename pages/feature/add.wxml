@@ -1,0 +1,36 @@
+<view class="container">
+  <view class="container-body">
+    <view class="group">
+      <view class="group-body">
+        <textarea placeholder="此刻的心情" maxlength="1000" bindblur="bindContentChange"></textarea>
+      </view>
+      <view class="group-header">上传图片</view>
+      <view class="group-body">
+        <view class="img-upload">
+          <view class="img-add" bindtap="chooseImage"></view>
+          <view class="img-item" bindlongtap="editImage" wx:for="{{uploadimgs}}" wx:key="{{index}}">
+            <icon type="clear" size="20" color="red" style="display:{{editable?'block':'none'}}" bindtap="deleteImg" data-index="{{index}}" />
+            <image src="{{item}}" mode="aspectFill"></image>
+          </view>
+
+        </view>
+      </view>
+      <view class="group-body">
+        <view class="input-list">
+          <view class="input-item">
+            <text class="input-item-label">位置</text>
+            <view class="input-item-content" bindtap="bindTapMap" style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">
+              <text>{{address}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <form bindsubmit="questionSubmit" report-submit="true">
+      <view class="btn-submit">
+        <button class="btn-block btn-blue" hover-class="btn-blue-hover" disabled="{{disabled}}" form-type="submit">提交</button>
+      </view>
+    </form>
+  </view>
+
+</view>

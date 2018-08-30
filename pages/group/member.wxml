@@ -1,0 +1,19 @@
+<import src="../template/userlist.wxml" />
+<view class="container">
+  <view class="weui-panel weui-panel_access">
+    <scroll-view scroll-y="true" scroll-top="{{scrollTop}}" style="height:{{scrollHeight}}px;" bindscroll="scroll" bindscrolltolower="pullUpLoad">
+      <template is="userList" data="{{memberList: memberList, hasMore: hasMore,isFounder:isFounder,isAdmin:isAdmin}}"></template>
+    </scroll-view>
+  </view>
+</view>
+<view>
+  <loading hidden="{{loadingHidden}}">
+    加载中...
+  </loading>
+</view>
+<action-sheet hidden="{{actionSheetHidden}}" bindchange="actionSheetbindchange">
+  <block wx:for-items="{{actionSheetItems}}" wx:key="item.bindtap">
+    <action-sheet-item bindtap="bindMenu{{item.bindtap}}">{{item.txt}}</action-sheet-item>
+  </block>
+  <action-sheet-cancel class="cancel">取消</action-sheet-cancel>
+</action-sheet>

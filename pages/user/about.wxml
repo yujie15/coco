@@ -1,0 +1,17 @@
+<view class="page">
+  <view class="page__hd">
+    <view class="page__title">关于我们</view>
+    <view class="page__desc">
+      <view>一个专为社群和个人打造的活动管理平台；</view>
+      <view>让活动组织更简单；</view>
+      <view>连接社群与个人，活动与个人以及个人与个人。</view>
+    </view>
+
+
+  </view>
+  <view class="page__bd page__bd_spacing">
+    <view class="weui-footer">
+      <view class="weui-footer__text">Copyright © 2017-2019</view>
+    </view>
+  </view>
+</view>

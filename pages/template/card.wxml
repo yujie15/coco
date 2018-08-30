@@ -1,0 +1,31 @@
+<template name="card">
+  <view wx:if="{{postList.length>0}}">
+    <view wx:for="{{ postList }}" wx:key="index" class='list-wrap'>
+      <view style='background:linear-gradient({{ deg }}deg, {{ colorArr[item.id % 5] }})' class='textList-back'></view>
+      <view class='textList' catchtap='goDetail' data-id="{{ item.id }}">
+        <view class='textSum'>
+          <text class='title text-h1'>{{ item.title }}</text>
+          <text class='summary text-sub1'>时间：{{item.birthland}}</text>
+          <text class='summary text-sub1'>场地：{{item.position}}</text>
+          <text class='summary text-sub1'>费用：{{item.bangPrice}}元</text>
+          <text class='summary text-sub1'>已报名：{{item.feelCount}}人/{{item.applymax}}</text>
+        </view>
+      </view>
+      <view class='whiteboard'>
+        <view class='head'>
+          <image src="{{item.avatar}}" class='headPic'></image>
+          <view class='name text-sub1'>
+            {{item.nickname}}
+          </view>
+        </view>
+        <button open-type='share' class='shareBtn' data-img="{{ item.sortPic }}" data-title='{{ item.title }}' data-id="{{ item.id }}" style='background:linear-gradient(135deg, {{ colorArr[item.id % 5] }})'>
+          <text class='iconfont icon-share'></text>
+        </button>
+      </view>
+    </view>
+    <view hidden="{{hasMore}}" class="loading complete">已加载全部</view>
+  </view>
+  <view wx:elif="{{!hasMore&&postList.length==0}}" class="loading complete">暂无活动</view>
+
+
+</template>

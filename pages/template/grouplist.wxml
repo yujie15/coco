@@ -1,0 +1,21 @@
+<template name="groupList">
+  <view class="weui-panel__bd">
+    <view wx:if="{{groupList.length>0}}">
+      <block wx:for="{{groupList}}" wx:key="item.id">
+        <navigator url="../group/detail?groupid={{item.id}}" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
+          <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+            <image src="{{item.cover}}" mode="aspectFill" class="weui-media-box__thumb"></image>
+          </view>
+          <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+            <view style="color:#000000;font-size: 28rpx;font-weight:bold">{{item.name}}</view>
+            <view style="color:#888888;font-size: 24rpx;">{{item.description}}</view>
+            <view style="color:#f7982a;font-size: 24rpx;display:flex">成员：{{item.countUser}}人
+            </view>
+          </view>
+        </navigator>
+      </block>
+      <view hidden="{{hasMore}}" class="loading complete">已加载全部</view>
+    </view>
+    <view wx:elif="{{!hasMore&&groupList.length==0}}" class="loading complete">暂无社群</view>
+  </view>
+</template>

@@ -1,0 +1,30 @@
+<import src="../template/list.wxml" />
+
+<view class="weui-panel">
+  <view class="weui-cell">
+    <view class="weui-cell__hd" style="position: relative;margin-right: 20rpx;">
+      <image src="{{avatar}}" style="width: 100rpx; height: 100rpx; display: block" class="userinfo-avatar" bindtap="avatarPreview" data-url="{{avatar}}" />
+      <!--<view class="weui-badge" style="position: absolute;top: -.4em;right: -.4em;">8</view>-->
+    </view>
+    <view class="weui-cell__bd">
+      <view>{{userInfo.nickname}}
+        <view wx:if="{{userInfo.sex=='1'}}">
+          <image src="../../images/man.png" style="width: 40rpx; height: 40rpx; display: block" /> </view>
+        <view wx:else>
+          <image src="../../images/women.png" style="width: 40rpx; height: 40rpx; display: block" /> </view>
+      </view>
+      <!--<view style="font-size: 13px;color: #888888;">{{userInfo.country}}</view>-->
+    </view>
+  </view>
+</view>
+
+<view class="weui-panel">
+  <view class="weui-panel__hd">TA的活动</view>
+  <view class="weui-panel__bd">
+
+    <scroll-view scroll-y="true" scroll-top="{{scrollTop}}" style="height:{{scrollHeight}}px;overflow:scroll;" bindscroll="scroll" bindscrolltolower="pullUpLoad">
+      <template is="postList" data="{{postList: postList, hasMore: hasMore}}"></template>
+    </scroll-view>
+
+  </view>
+</view>

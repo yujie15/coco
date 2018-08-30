@@ -1,0 +1,7 @@
+<block wx:for="{{cityList}}" wx:key="categoryID">
+  <view class="weui-cell weui-cell_access" hover-class="weui-cell_active" data-index="{{index}}" data-name="{{item.categoryName}}" data-id="{{item.categoryID}}" bindtap="tapSchool">
+    <view class="weui-cell__bd">{{item.categoryName}}</view>
+  </view>
+</block>
+
+<view wx:if="{{cityList.length==0}}" class="loading complete">暂无数据</view>

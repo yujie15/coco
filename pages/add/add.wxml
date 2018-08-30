@@ -1,0 +1,322 @@
+<view class="container">
+  <view class="weui-toptips weui-toptips_warn" wx:if="{{showTopTips}}">{{errors}}</view>
+  <view class="weui-cells weui-cells_after-title">
+    <block wx:if="{{!typeHidden}}">
+      <view class="weui-cell weui-cell_select">
+        <view class="weui-cell__bd">
+          <picker bindchange="bindTypeChange" value="{{typeIndex}}" range="{{types}}" range-key="categoryName">
+            <view class="weui-select" placeholder="请选择">{{types[typeIndex].categoryName}}</view>
+          </picker>
+        </view>
+      </view>
+    </block>
+    <view class="weui-cell">
+      <view class="weui-cell__bd">
+        <input class="weui-input" placeholder="主题" bindchange="bindTitleChange" value="{{title}}" />
+      </view>
+    </view>
+
+    <view class="weui-cell weui-cell_select">
+      <view class="weui-cell__bd">
+        <picker bindchange="bindTeamViewChange" value="{{teamViewIndex}}" range="{{teamViews}}" range-key="name">
+          <view class="weui-select" placeholder="公开">{{teamViews[teamViewIndex].name}}
+            <text>{{teamViews[teamViewIndex].note}}</text>
+          </view>
+        </picker>
+      </view>
+    </view>
+
+    <view class="weui-cell weui-cell_input">
+      <view class="weui-cell__hd">
+        <view class="weui-label">开始时间</view>
+      </view>
+      <view class="weui-cell__hd" style="margin-left:20rpx; ">
+        <picker mode="date" value="{{bdate}}" start="{{bdatestart}}" bindchange="bindBDateChange">
+          <view class="weui-input">{{bdate}}
+          </view>
+        </picker>
+      </view>
+      <view class="weui-cell__hd" style="margin-left:20rpx; ">
+        <picker mode="time" value="{{btime}}" bindchange="bindBTimeChange">
+          <view class="weui-input">{{btime}}</view>
+        </picker>
+      </view>
+    </view>
+    <view class="weui-cell weui-cell_input">
+      <view class="weui-cell__hd">
+        <view class="weui-label">结束时间</view>
+      </view>
+      <view class="weui-cell__hd" style="margin-left:20rpx; ">
+        <picker mode="date" value="{{edate}}" start="{{edatestart}}" bindchange="bindEDateChange">
+          <view class="weui-input">{{edate}}
+          </view>
+        </picker>
+      </view>
+      <view class="weui-cell__hd" style="margin-left:20rpx; ">
+        <picker mode="time" value="{{etime}}" bindchange="bindETimeChange">
+          <view class="weui-input">{{etime}}</view>
+        </picker>
+      </view>
+    </view>
+    <!--
+    <view class="weui-cell weui-cell_input">
+      <view class="weui-cell__hd">
+        <view class="weui-label">报名开始时间</view>
+      </view>
+      <view class="weui-cell__hd" style="margin-left:20rpx; ">
+        <picker mode="date" value="{{vbdate}}" start="{{vbdatestart}}" bindchange="bindVBDateChange">
+          <view class="weui-input">{{vbdate}}</view>
+        </picker>
+      </view>
+      <view class="weui-cell__hd" style="margin-left:20rpx; ">
+        <picker mode="time" value="{{vbtime}}" bindchange="bindVBTimeChange">
+          <view class="weui-input">{{vbtime}}</view>
+        </picker>
+      </view>
+    </view>
+    -->
+    <view class="weui-cell weui-cell_input">
+      <view class="weui-cell__hd">
+        <view class="weui-label">报名截止时间</view>
+      </view>
+      <view class="weui-cell__hd" style="margin-left:20rpx; ">
+        <picker mode="date" value="{{vedate}}" start="{{vedatestart}}" bindchange="bindVEDateChange">
+          <view class="weui-input">{{vedate}}</view>
+        </picker>
+      </view>
+      <view class="weui-cell__hd" style="margin-left:20rpx; ">
+        <picker mode="time" value="{{vetime}}" bindchange="bindVETimeChange">
+          <view class="weui-input">{{vetime}}</view>
+        </picker>
+      </view>
+    </view>
+    <block wx:if="{{!groupHidden}}">
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">添加到社群</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" placeholder="请选择" bindchange="bindGroupChange" value="{{group}}" bindtap="tapGroup" />
+        </view>
+      </view>
+    </block>
+    <block wx:if="{{!schoolHidden}}">
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">所在地</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" placeholder="请选择" bindchange="bindSchoolChange" value="{{school}}" bindtap="tapSchool" />
+        </view>
+      </view>
+    </block>
+    <view class="weui-cell weui-cell_input">
+      <view class="weui-cell__hd">
+        <view class="weui-label">场地</view>
+      </view>
+      <view class="weui-cell__bd">
+        <input class="weui-input" placeholder="请填写" bindchange="bindAddressChange" value="{{address}}" />
+      </view>
+    </view>
+    <view class="weui-cell">
+      <view class="weui-cell__bd">
+        <textarea class="weui-textarea" placeholder="填写活动详情" style="height: 3.6em" bindblur="bindContentChange" maxlength="1000" value="{{content}}" style="padding:0px" />
+        <!--<view class="weui-textarea-counter">0/40</view>-->
+      </view>
+    </view>
+    <view class="weui-cell">
+      <view class="weui-cell__bd">
+        <view class="img-upload">
+          <view class="img-add" bindtap="chooseImage"></view>
+          <view class="img-item" bindlongtap="editImage" wx:for="{{uploadimgs}}" wx:key="{{index}}">
+            <icon type="clear" size="20" color="red" style="display:{{editable?'block':'none'}}" bindtap="deleteImg" data-index="{{index}}" />
+            <image src="{{item}}" mode="aspectFill"></image>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="weui-cell" bindtap="tapMore">
+      <view class="weui-cell__bd" style="display: flex;justify-content: center;">
+        更多选项>>
+      </view>
+    </view>
+    <block wx:if="{{!moreHidden}}">
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">每人预估费用</view>
+        </view>
+        <view class="weui-cell__bd" style="display: flex;flex-direction: row  ;flex-wrap: nowrap;align-items: center ">
+          <input type="number" class="weui-input" placeholder="选填" bindchange="bindPriceChange" value="{{price}}" style="margin-left:20rpx; " />元
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">限制活动人数</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input type="number" class="weui-input" placeholder="选填" bindchange="bindStorageChange" value="{{storage}}" maxlength="6" style="margin-left:20rpx; " />
+        </view>
+      </view>
+      <!--
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">报名口令</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input type="number" class="weui-input" placeholder="选填(四位数字)" bindchange="bindSizeChange" value="{{size}}" maxlength="4" style="margin-left:20rpx; "/>
+        </view>
+      </view>
+      -->
+      <view class="weui-cell weui-cell_input weui-cell_vcode">
+        <view class="weui-cell__hd">
+          <view class="weui-label">联系电话</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input type="number" class="weui-input" placeholder="选填" bindchange="bindMobileChange" value="{{mobile}}" maxlength="11" style="margin-left:20rpx; " />
+        </view>
+      </view>
+      <!--
+      <view class="weui-cell weui-cell_switch">
+        <view class="weui-cell__bd">不允许报名</view>
+        <view class="weui-cell__ft">
+          <switch bindchange="bindIsNotifyPostChange" checked="{{isNotifyPost}}" />
+        </view>
+      </view>
+      -->
+      <view class="weui-cell weui-cell_switch" wx:if="{{!isNotifyPost}}">
+        <view class="weui-cell__bd">公开报名信息</view>
+        <view class="weui-cell__ft">
+          <switch bindchange="bindIsSinglePostChange" checked="{{isSinglePost}}" />
+        </view>
+      </view>
+
+    </block>
+  </view>
+
+  <block wx:if="{{!moreHidden&&!isNotifyPost}}">
+    <view class="weui-cells__title">要求报名者必填</view>
+    <view style="margin:10px 0;display:flex;flex-direction:row;flex-wrap:wrap;justify-conent:space-around">
+      <view class="con">
+        <button class="{{switchxm ? 'con-button':''}}" data-name="xm" bindtap="clickButton">姓名</button>
+      </view>
+      <view class="con">
+        <button class="{{switchxb ? 'con-button':''}}" data-name="xb" bindtap="clickButton">性别</button>
+      </view>
+      <view class="con">
+        <button class="{{switchsf ? 'con-button':''}}" data-name="sf" bindtap="clickButton">身份证号</button>
+      </view>
+      <view class="con">
+        <button class="{{switchxx ? 'con-button':''}}" data-name="xx" bindtap="clickButton">学校</button>
+      </view>
+      <view class="con">
+        <button class="{{switchxy ? 'con-button':''}}" data-name="xy" bindtap="clickButton">学院</button>
+      </view>
+      <view class="con">
+        <button class="{{switchnj ? 'con-button':''}}" data-name="nj" bindtap="clickButton">年级</button>
+      </view>
+      <view class="con">
+        <button class="{{switchwx ? 'con-button':''}}" data-name="wx" bindtap="clickButton">微信号</button>
+      </view>
+      <view class="con">
+        <button class="{{switchyx ? 'con-button':''}}" data-name="yx" bindtap="clickButton">邮箱</button>
+      </view>
+      <view class="con">
+        <button class="{{switchdh ? 'con-button':''}}" data-name="dh" bindtap="clickButton">联系电话</button>
+      </view>
+      <view class="con">
+        <button class="{{switchrs? 'con-button':''}}" data-name="rs" bindtap="clickButton">报名人数</button>
+      </view>
+      <view class="con">
+        <button class="{{switchtc ? 'con-button':''}}" data-name="tc" bindtap="clickButton">特长</button>
+      </view>
+      <view class="con">
+        <button class="{{switchbz ? 'con-button':''}}" data-name="bz" bindtap="clickButton">备注</button>
+      </view>
+      <view class="con">
+        <button class="{{switchlist ? 'con-button':''}}" data-name="list" bindtap="clickButton">自定义</button>
+      </view>
+    </view>
+    <view wx:if="{{switchlist}}">
+      <block wx:for="{{lists}}" wx:key="{{index}}">
+        <input class='weui-inpu' data-id="{{index}}" placeholder="选项" bindinput='bindKeyInput' value="{{lists[index].title}}" style="margin-left:20rpx; "></input>
+      </block>
+      <view style="display:inline-flex;" class="btn-submit">
+        <button class='btn-blue' bindtap='addList'>添加选项</button>
+        <button class='btn-blue' bindtap='delList'>删除选项</button>
+      </view>
+    </view>
+    <!--
+
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_switch">
+        <view class="weui-cell__bd">姓名</view>
+        <view class="weui-cell__ft">
+          <switch bindchange="switchxm" checked="{{switchxm}}" />
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_switch">
+        <view class="weui-cell__bd">性别</view>
+        <view class="weui-cell__ft">
+          <switch bindchange="switchxb" checked="{{switchxb}}" />
+        </view>
+      </view>
+
+      <view class="weui-cell weui-cell_switch">
+        <view class="weui-cell__bd">生日</view>
+        <view class="weui-cell__ft">
+          <switch bindchange="switchsr" checked="{{switchsr}}" />
+        </view>
+      </view>
+  
+      <view class="weui-cell weui-cell_switch">
+        <view class="weui-cell__bd">身份证号</view>
+        <view class="weui-cell__ft">
+          <switch bindchange="switchsf" checked="{{switchsf}}" />
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_switch">
+        <view class="weui-cell__bd">学校</view>
+        <view class="weui-cell__ft">
+          <switch bindchange="switchxx" checked="{{switchxx}}" />
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_switch">
+        <view class="weui-cell__bd">联系电话</view>
+        <view class="weui-cell__ft">
+          <switch bindchange="switchdh" checked="{{switchdh}}" />
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_switch">
+        <view class="weui-cell__bd">报名人数</view>
+        <view class="weui-cell__ft">
+          <switch bindchange="switchrs" checked="{{switchrs}}" />
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_switch">
+        <view class="weui-cell__bd">备注</view>
+        <view class="weui-cell__ft">
+          <switch bindchange="switchbz" checked="{{switchbz}}" />
+        </view>
+      </view>
+    </view>
+        -->
+  </block>
+  <!--
+    <checkbox-group bindchange="bindAgreeChange">
+      <label class="weui-agree" for="weuiAgree">
+                <view class="weui-agree__text">
+                    <checkbox class="weui-agree__checkbox" id="weuiAgree" value="agree" checked="{{isAgree}}" />
+                    <view class="weui-agree__checkbox-icon">
+                        <icon class="weui-agree__checkbox-icon-check" type="success_no_circle" size="9" wx:if="{{isAgree}}"></icon>
+                    </view>
+                    阅读并同意<navigator url="" class="weui-agree__link">《相关条款》</navigator>
+                </view>
+            </label>
+    </checkbox-group>
+-->
+  <form report-submit="true" bindsubmit="bindToastTap">
+    <view class="btn-submit">
+      <button class="btn-block btn-blue" hover-class="btn-blue-hover" form-type="submit">确定</button>
+    </view>
+  </form>
+</view>

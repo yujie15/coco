@@ -1,0 +1,32 @@
+<view class="container">
+  <view class="group">
+    <view class="group-header">我要留言</view>
+    <view class="group-body">
+      <view class="input-list">
+        <!--
+        <view class="input-item">
+          <text class="input-item-label">报名人数</text>
+          <view class="input-item-content">
+            <input type="number" value="{{grade}}"  bindchange="bindGradeChange" bindinput="bindGradeChange"></input>
+          </view>
+        </view>
+        -->
+        <view class="input-item input-item-full">
+          <text class="input-item-label">一句话留言</text>
+          <textarea placeholder="可填写100字" maxlength="100" value="{{content}}" bindblur="bindContentChange"></textarea>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="btn-submit">
+    <form bindsubmit="applySubmit" report-submit="true">
+      <button formType="submit" class="btn-block btn-blue" hover-class="btn-blue-hover">提交</button>
+    </form>
+  </view>
+
+
+</view>
+
+<loading hidden="{{loadingHidden}}">
+  提交中...
+</loading>

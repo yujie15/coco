@@ -1,0 +1,42 @@
+.my-reserve-list {
+  width: 100%;
+}
+
+.my-reserve-item {
+  display: flex;
+  padding: 5rpx;
+  width: 100%;
+  border-bottom: 1rpx solid #ddd;
+}
+
+.my-reserve-img {
+  display:flex;
+  width: 20%;
+  height: 200rpx;
+  justify-content:center;
+  align-items:center;
+}
+
+.my-reserve-img image {
+  width: 50%;
+}
+
+.my-reserve-text {
+  flex: 1;
+  margin-left: 20rpx;
+  width: 80%;
+}
+
+.my-reserve-title {
+  color: #333;
+  width: 100%;
+  font-size: 34rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.my-reserve-text text {
+  display: block;
+  color: #888;
+  font-size: 24rpx;
+}

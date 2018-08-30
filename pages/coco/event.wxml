@@ -1,0 +1,30 @@
+<import src="../template/list.wxml" />
+<import src="../template/head.wxml" />
+<button size="default" style="width: 100rpx; height: 100rpx; background-color: #fff;" class="add-btn" bindtap="tapCreateEvent"></button>
+
+<view class="container">
+  <template is="head" data="{{userInfo: userInfo}}"></template>
+  <scroll-view scroll-y="true" class="scoll-h" bindscrolltolower="pullUpLoad">
+    <template is="postList" data="{{postList: postList, hasMore: event_hasMore,account:account}}"></template>
+    <block wx:if="{{loadingHidden&&postList.length==0}}">
+      <image src="/images/noevent.png" style="width:400rpx; height: 400rpx; display: block;margin: 0 auto;" />
+      <view class="page__hd">
+        <view class="page__desc">
+          <view>你还没有参加活动哦</view>
+          <view>点击加号快去创建吧~</view>
+          <view>或者去发现寻找自己喜欢的活动~</view>
+        </view>
+      </view>
+
+    </block>
+  </scroll-view>
+</view>
+
+<view>
+  <loading hidden="{{loadingHidden}}">
+    加载中...
+  </loading>
+</view>
+<toast hidden="{{toastHidden}}" duration="1000" bindchange="onToastChanged">
+  {{toastText}}
+</toast>

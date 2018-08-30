@@ -1,0 +1,15 @@
+.question-text{
+	padding: 20rpx;
+	text-align: center;
+}
+.question-text text{
+	display: block;
+	color: #888;
+	font-size: 28rpx;
+}
+.question-text view{
+	font-size: 48rpx;
+	color: #f7982a;
+}/* question.wxss */
+
+

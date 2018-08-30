@@ -1,0 +1,181 @@
+/* pages/feature/feature.wxss */
+
+page {
+    box-sizing: border-box;
+}
+.container {
+  height:100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  box-sizing: border-box;
+  background-color: #f2f2f2;
+} 
+:before,
+:after ,
+::before,
+::after{
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.c-minheight {
+  min-height: 80px;
+}
+.c-full {
+  width: 100%;
+  height: 100%;
+}
+.c-block {
+  display: block;
+}
+.c-autosize {
+  width: auto;
+  height: auto;
+}
+.c-fullwidth {
+  width: 100%;
+}
+.c-fullheight {
+  height: 100%;
+}
+.c-initHide{
+  opacity:0 !important;
+}
+.c-ellipse{
+   text-overflow: ellipsis;
+   display: -webkit-box;
+   -webkit-box-orient: vertical;
+   -webkit-line-clamp: 2;
+   overflow:hidden;
+}
+.item {
+  display: flex;
+  position: relative;
+  padding: 15px;
+  background-color: #fff;
+  margin-bottom: 1px;
+}
+.i-right {
+  width: 100%;
+}
+.item .top {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 3px;
+}
+
+.item .u-name {
+  color: deepskyblue;
+  font-size: 14px;
+}
+
+.item .time {
+  color: #888;
+  font-size: 12px;
+}
+.c-u-img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.image_thumbView{width: 15rem; height: 15rem; display: flex; justify-content: center; align-items: center; margin-bottom: 15px;}
+.image_thumb{width: 100%; height: 100%; background-color: transparent; }
+.text_description{display: block; font-size: 13px; color: rgb(122, 122, 122); text-align: justify; line-height: 1.7em; margin-bottom: 10px;}
+.listitemWrap{ padding: 15px 1.5rem; padding-top: 15px; margin-bottom: 5px;   background-color: #ffffff;}
+.listitemInfoWrap{padding-bottom: 15px; display: flex; justify-content: space-between; align-items: center;}
+.likeinfo{display: flex; width: 180px; justify-content: space-between; align-items: center; }
+.likebtn{width: 28px; height: 28px; background-color: transparent; }
+.likeinfo_count{font-size: 12px; color: rgb(148, 148, 148); padding: 3px 10px; background-color: rgb(240, 240, 240); border-radius: 4px;}
+.listitem_creattime{font-size: 12px; color: rgb(186, 186, 186); padding-right: 2px; }
+.nav_userlink{align-self: flex-start; }
+
+.commentlistwrap{padding: 10px 1rem; padding-bottom: 10px; }
+.commentlistitem{display: flex; margin-bottom: 10px; }
+.comment_operate{display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+.commentlikebtn{width: 14px; height: 14px;}
+.commentreplybtn{width: 16px; height: 16px;}
+.likeuser{width: 36px; height: 36px; background-position: 50% 50%; background-size: cover; border-radius: 48px; margin-bottom: 5px; }
+.useravatar{width: 100%; height: 100%; border-radius: 48px; border-bottom-right-radius: 48px; border-bottom-left-radius: 48px; border-top-right-radius: 48px; border-top-left-radius: 48px; }
+.wx-view_8NFuqw{margin-bottom: 15px; }
+.wx-view_WnUrtw{flex: 1 1 0%; margin-left: 10px; }
+.wx-view_wrkAD7{width: 16px; height: 16px;}
+.wx-view_h6iSr9{min-width: 80px; display: flex; justify-content: space-between; }
+.wx-image_YoXk15{width: 100%; height: 100%; display: block; background-color: transparent; }
+.wx-text_71u3gA{font-size: 12px; color: rgb(27, 91, 166);  display: block;}
+.wx-view_F9ISUC{display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+.wx-text_kGXxsa{font-size: 13px; color: rgb(84, 84, 84); line-height: 1.5em; margin-bottom: 15px; }
+.wx-text_t7lDiK{font-size: 13px; color: rgb(166, 166, 166); }
+
+.comment-fixed {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+}
+
+.cf-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: transparent;
+  z-index: 99;
+}
+
+.cf-box {
+  padding: 8px 5px;
+  display: flex;
+  justify-content: center;
+}
+
+
+
+.cf-content {
+  background-color: #f2f2f2;
+  padding: 4px 5px;
+  font-size: 14px;
+  height: 30px;
+  max-height: 40px;
+  width: 100%;
+  
+}
+
+.cf-send {
+  width: 50px;
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 5px;
+  border-radius: 2px;
+  text-align: center;
+  padding: 0 2px !important;
+  font-size: 12px;
+  background-color: #1296db;
+  color: #fff;
+}
+
+.cf-send.touch-active:active {
+  background-color: #b03f3e;
+}
+.add-btn {
+  float: right;
+  background-color: #fff;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  z-index: 1;
+  border: 0 solid #fff;
+  border-radius: 500px;
+  margin:10px 10px 60px;
+  box-shadow: 4px 1px 1px #ccc;
+  background: url(https://sports.ttyclub.com/upload/file/2017/12/21/102.png) no-repeat 50% 50% / 70% auto;
+}

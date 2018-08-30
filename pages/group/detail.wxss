@@ -1,0 +1,56 @@
+/* pages/group/detail.wxss */
+
+.space-content {
+  background: #f9f9f9;
+}
+
+.space-top, .space-block {
+  padding: 20rpx;
+  background: #fff;
+  margin-bottom: 20rpx;
+  border-bottom: 1rpx solid #ddd;
+}
+
+.space-block {
+  border-top: 1rpx solid #ddd;
+}
+
+.space-banner {
+  position: relative;
+}
+
+.space-banner swiper {
+  width: 100%;
+  height: 360rpx;
+}
+
+.space-banner .slide-image {
+  width: 100%;
+  height: 360rpx;
+}
+
+.space-banner .slide-image {
+  width: 100%;
+  height: 360rpx;
+}
+
+.number-banner {
+  position: absolute;
+  right: 40rpx;
+  margin-top: -80rpx;
+  padding: 0 16rpx;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 6rpx;
+  color: #fff;
+  font-size: 36rpx;
+}
+
+.number-banner text:last-child {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 30rpx;
+}
+
+.space-title {
+  font-size: 44rpx;
+  line-height: 2;
+}

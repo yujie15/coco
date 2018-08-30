@@ -1,0 +1,25 @@
+<view class="container">
+  <view class="weui-panel weui-panel_access">
+    <view class="my-reserve-list" wx:if="{{commentList&&commentList.length>0}}">
+      <block wx:for="{{commentList}}" wx:key="item.id" >
+
+
+        <view class="weui-cell" hover-class="weui-cell_active"  bindtap="delFeel" bindtouchstart="mytouchstart" bindtouchend="mytouchend" data-id="{{item.id}}" data-value="{{item.value}}">
+          <view class="weui-cell__bd">
+            <view style="display: inline-block; vertical-align: middle">{{item.content}}</view>
+          </view>
+          <view class="weui-cell__ft weui-cell__ft_in-access"><view  wx:if="{{item.isNew==1}}" class="weui-badge weui-badge_dot" style="margin-left: 5px;margin-right: 5px;"></view></view>
+        </view>
+
+
+      </block>
+      <view hidden="{{hasMore}}" class="loading complete">已加载全部</view>
+    </view>
+    <view wx:elif="{{!hasMore&&commentList.length==0}}" class="loading complete">暂无消息</view>
+  </view>
+</view>
+<view>
+  <loading hidden="{{loadingHidden}}">
+    加载中...
+  </loading>
+</view>

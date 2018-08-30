@@ -1,0 +1,66 @@
+<!--index.wxml-->
+<import src="../template/list.wxml" />
+<view class="container">
+  <!--
+  <view class="weui-search-bar">
+    <view class="weui-search-bar__form">
+      <view class="weui-search-bar__box">
+        <input type="text" class="weui-search-bar__input" value="{{keyword}}" placeholder="搜索" />
+      </view>
+      <label class="weui-search-bar__label" bindtap="tapSearch">
+                    <icon class="weui-icon-search" type="search" size="14"></icon>
+                    <view class="weui-search-bar__text">搜索</view>
+                </label>
+    </view>
+  </view>
+  -->
+
+
+
+  <view hidden="{{swiperBoxHidden}}">
+    <swiper class="swiper_box" indicator-color="{{indicatorcolor}}" indicator-active-color="{{indicatoractivecolor}}" vertical="{{vertical}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" indicator-dots="indicatorDots">
+      <block wx:for="{{adList}}" wx:key="item">
+        <swiper-item>
+          <navigator url="{{item.url}}" hover-class="navigator-hover">
+            <image src="{{item.cover}}" class="slide-image" mode="aspectFill"></image>
+          </navigator>
+        </swiper-item>
+      </block>
+    </swiper>
+  </view>
+
+
+  <view hidden="{{swiperTabHidden}}">
+    <view class="swiper-tab row">
+      <scroll-view class="recommend_scroll_x_box" scroll-x="true">
+        <form report-submit bindsubmit="tapSearch">
+        <view wx:if="{{school!=''}}" class="row" style="align-items:center;color:#18B4ED;font-size: 28rpx;font-weight:bold;margin-top:5rpx;margin-left:10rpx;">
+
+        <button formType="submit" class="btn">{{school}}<image src="../../images/s.png" style="width:20rpx; height:20rpx;margin-left:10rpx;" /></button>
+
+          
+        </view>
+        </form>
+        <view class="swiper-tab-list {{currentTab==0 ? 'on' : ''}}" data-current="0" bindtap="swichNav">全部</view>
+        <view class="swiper-tab-list {{currentTab==item.categoryID ? 'on' : ''}}" data-current="{{item.categoryID}}" bindtap="swichNav" wx:for="{{types}}" wx:key="{{item.categoryID}}">{{item.categoryName}}</view>
+      </scroll-view>
+    </view>
+  </view>
+  
+    <template is="postList" data="{{postList: postList, hasMore: hasMore, deg, colorArr}}"></template>
+
+<!--
+  <scroll-view scroll-y="true" scroll-top="{{scrollTop}}" style="height:{{scrollHeight}}px;overflow:scroll;" bindscroll="scroll" bindscrolltolower="pullUpLoad">
+  </scroll-view>
+-->
+  <!--list-->
+
+</view>
+<view>
+  <loading hidden="{{loadingHidden}}">
+    加载中...
+  </loading>
+</view>
+<toast hidden="{{toastHidden}}" duration="1000" bindchange="onToastChanged">
+  {{toastText}}
+</toast>

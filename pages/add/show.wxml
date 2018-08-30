@@ -1,0 +1,108 @@
+
+<view class="container">
+  <view class="weui-toptips weui-toptips_warn" wx:if="{{showTopTips}}">{{msg}}</view>
+
+  <view class="weui-form-preview">
+    <view class="weui-form-preview__bd">
+      <!--
+      <view class="weui-form-preview__item">
+        <view class="weui-form-preview__label">类型</view>
+        <view class="weui-form-preview__value">{{type}}</view>
+      </view>
+      -->
+      <view class="weui-form-preview__item">
+        <view class="weui-form-preview__label">主题</view>
+        <view class="weui-form-preview__value">{{title}}</view>
+      </view>
+      <!--
+      <view class="weui-form-preview__item">
+        <view class="weui-form-preview__label">{{teamView}}</view>
+        <view class="weui-form-preview__value"></view>
+      </view>      
+      -->
+      <view class="weui-form-preview__item">
+        <view class="weui-form-preview__label">开始时间</view>
+        <view class="weui-form-preview__value">{{bdate}} {{btime}}</view>
+      </view>
+      <view class="weui-form-preview__item">
+        <view class="weui-form-preview__label">结束时间</view>
+        <view class="weui-form-preview__value">{{edate}} {{etime}}</view>
+      </view>
+      <!--
+      <view class="weui-form-preview__item">
+        <view class="weui-form-preview__label">报名开始时间</view>
+        <view class="weui-form-preview__value">{{vbdate}} {{vbtime}}</view>
+      </view>
+      -->
+      <view class="weui-form-preview__item">
+        <view class="weui-form-preview__label">报名截止时间</view>
+        <view class="weui-form-preview__value">{{vedate}} {{vetime}}</view>
+      </view>
+
+      <view class="weui-form-preview__item" wx:if="{{group!=''}}">
+        <view class="weui-form-preview__label">社群</view>
+        <view class="weui-form-preview__value">{{group}}</view>
+      </view>
+
+      <view class="weui-form-preview__item" wx:if="{{school!=''}}">
+        <view class="weui-form-preview__label">所在地</view>
+        <view class="weui-form-preview__value">{{school}}</view>
+      </view>
+
+      <view class="weui-form-preview__item" wx:if="{{address!=''}}">
+        <view class="weui-form-preview__label">场地</view>
+        <view class="weui-form-preview__value">{{address}}</view>
+      </view>
+      <view class="weui-form-preview__item">
+        <view class="weui-form-preview__label">活动说明</view>
+        <view class="weui-form-preview__value">{{content}}</view>
+      </view>
+      <view class="weui-form-preview__item">
+        <view class="img-upload">
+          <view class="img-item" wx:for="{{uploadurls}}" wx:key="{{index}}">
+            <image src="{{item}}" mode="aspectFill" bindtap="tapImage" data-url="{{item}}"></image>
+          </view>
+        </view>
+      </view>
+      <view bindtap="tapWeburl" wx:if="{{weburl!=''}}">
+          <image src="{{weburl}}" mode="aspectFit" style="width:100%;margin:10px;" ></image>
+      </view>
+      <view class="weui-form-preview__item" wx:if="{{price!=''}}">
+        <view class="weui-form-preview__label">每人预估费用</view>
+        <view class="weui-form-preview__value">{{price}}元</view>
+      </view>
+      <view class="weui-form-preview__item" wx:if="{{storage!=''}}">
+        <view class="weui-form-preview__label">限制活动人数</view>
+        <view class="weui-form-preview__value">{{storage}}</view>
+      </view>
+      <view class="weui-form-preview__item" wx:if="{{size!=''}}">
+        <view class="weui-form-preview__label">报名口令</view>
+        <view class="weui-form-preview__value" style="color:#f7982a">{{size}}</view>
+      </view>
+      <view class="weui-form-preview__item" wx:if="{{mobile!=''}}">
+        <view class="weui-form-preview__label">联系电话</view>
+        <view class="weui-form-preview__value">{{mobile}}</view>
+      </view>
+
+    </view>
+    <form report-submit="true" bindsubmit="tapSubmit">
+      <view class="weui-form-preview__ft">
+        <view bindtap="tapModify" class="weui-form-preview__btn weui-form-preview__btn_default" hover-class="weui-form-preview__btn_active">返回修改</view>
+        <button class="weui-form-preview__btn weui-form-preview__btn_primary" hover-class="weui-form-preview__btn_active" form-type="submit">确认{{submitName}}</button>
+      </view>
+    </form>
+    <!--
+      <view class="weui-form-preview__ft">
+        <view bindtap="tapModify" class="weui-form-preview__btn weui-form-preview__btn_default" hover-class="weui-form-preview__btn_active">返回修改</view>
+        <view bindtap="tapSubmit" class="weui-form-preview__btn weui-form-preview__btn_primary" hover-class="weui-form-preview__btn_active">确认发布</view>
+      </view>
+      -->
+    <loading hidden="{{loadingHidden}}">
+      发布中...
+    </loading>
+  </view>
+</view>
+
+<toast hidden="{{toastHidden}}" duration="1000" bindchange="onToastChanged">  
+        {{toastText}}  
+</toast> 

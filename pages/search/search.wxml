@@ -1,0 +1,59 @@
+<view class="container">
+  <view class="weui-search-bar" hidden="{{isSelect==1}}">
+    <view class="weui-search-bar__form">
+      <view class="weui-search-bar__box">
+        <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
+        <input type="text" class="weui-search-bar__input" placeholder="搜索活动" value="{{inputVal}}" focus="{{inputShowed}}" bindinput="inputTyping" bindconfirm="searchSubmit" confirm-type="search" />
+        <view class="weui-icon-clear" wx:if="{{inputVal.length > 0}}" bindtap="clearInput">
+          <icon type="clear" size="14"></icon>
+        </view>
+      </view>
+      <label class="weui-search-bar__label" hidden="{{inputShowed}}" bindtap="showInput">
+        <icon class="weui-icon-search" type="search" size="14"></icon>
+        <view class="weui-search-bar__text">搜索活动</view>
+      </label>
+    </view>
+    <view class="weui-search-bar__cancel-btn" hidden="{{!inputShowed}}" bindtap="hideInput">取消</view>
+  </view>
+  <view class="weui-cells searchbar-result" wx:if="{{filterList.length > 0}}">
+    <scroll-view scroll-y style="height:{{scrollHeight}}px;" bindscrolltoupper="upper" bindscrolltolower="lower" bindscroll="scroll" scroll-top="{{scrollTop}}">
+      <block wx:for="{{filterList}}" wx:key="id">
+        <view url="" class="weui-cell" hover-class="weui-cell_active" bindtap="tapSchool" data-name="{{item.name}}" data-id="{{item.id}}">
+          <view class="weui-cell__bd">
+            <view> {{item.name}}</view>
+          </view>
+        </view>
+      </block>
+    </scroll-view>
+  </view>
+  <view class="page__bd" wx:if="{{filterList.length ==0}}">
+
+    <block wx:if="{{isSelect==0}}">
+      <form bindsubmit="tapHotSchool" report-submit="true">
+        <view class="weui-cells__title">热门学校</view>
+        <view style="margin:10px 0;display:flex;flex-direction:row;flex-wrap:wrap;justify-conent:space-around">
+          <block wx:for="{{schoolList}}" wx:key="id">
+            <view wx:if="{{item.count>0}}" style="margin:10px 10px;">
+              <button class="weui-btn" data-name="{{item.name}}" data-id="{{item.id}}" form-type="submit">{{item.name}}({{item.count}})</button>
+            </view>
+          </block>
+
+        </view>
+      </form>
+    </block>
+
+
+    <block wx:if="{{isSelect==1}}">
+      <view class="weui-cells__title">选择地区</view>
+      <view class="weui-cells weui-cells_after-title">
+        <block wx:for="{{cityList}}" wx:key="categoryID">
+          <view class="weui-cell weui-cell_access" hover-class="weui-cell_active" data-index="{{index}}" data-id="{{item.categoryID}}" data-name="{{item.categoryName}}" bindtap="toCity">
+            <view class="weui-cell__bd">{{item.categoryName}}</view>
+            <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+          </view>
+        </block>
+      </view>
+    </block>
+
+  </view>
+</view>

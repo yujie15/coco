@@ -1,0 +1,7 @@
+<block wx:for="{{groupList}}" wx:key="id">
+  <view class="weui-cell weui-cell_access" hover-class="weui-cell_active" data-index="{{index}}" data-name="{{item.name}}" data-id="{{item.id}}" bindtap="tapGroup">
+    <view class="weui-cell__bd">{{item.name}}</view>
+  </view>
+</block>
+
+<view wx:if="{{groupList.length==0}}" class="loading complete">暂无数据</view>

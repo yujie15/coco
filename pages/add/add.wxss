@@ -1,0 +1,14 @@
+/* add.wxss */
+
+/** 添加自定义button点击态样式类**/
+.other-button-hover {
+  background-color: blue;
+}
+
+.con-button{
+  color: black;
+  background-color: lightgreen
+}
+.con{
+  margin:5px 10px;
+}

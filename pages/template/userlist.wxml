@@ -1,0 +1,41 @@
+<template name="userList">
+
+
+  <view class="my-reserve-list" wx:if="{{memberList&&memberList.length>0}}">
+    <block wx:for="{{memberList}}" wx:key="item.guid">
+      <view class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active" data-guid="{{item.guid}}">
+        <view class="my-reserve-img">
+          <image src="{{item.avatar}}" mode="aspectFill" class="weui-media-box__thumb  userinfo-avatar"></image>
+        </view>
+        <view class="my-reserve-text">
+          <view style="display:flex;align-items:center ">
+            <view style="font-size: 34rpx;color: #555;">{{item.nickname}}</view>
+            <view wx:if="{{item.sex=='1'}}" style="margin-left:6rpx; ">
+              <image src="../../images/man.png" style="width: 34rpx; height: 34rpx; display: block" /> </view>
+            <view wx:else>
+              <image src="../../images/women.png" style="width: 34rpx; height: 34rpx; display: block" /> </view>
+
+            <view wx:if="{{item.isAdmin=='1'}}" style="margin-left:6rpx; ">
+              <image src="../../images/admin.png" style="width: 34rpx; height: 34rpx; display: block" /> </view>
+          </view>
+
+          <view style="font-size: 24rpx;color: #555;">加入于{{item.updatetimeShow}}</view>
+
+
+          <!--
+          <view class="my-reserve-title">{{item.nickname}}</view>
+          <text></text>
+          <text></text>
+          -->
+        </view>
+        <view wx:if="{{isFounder=='1'||isAdmin=='1'}}" class="weui-cell__ft" bindtap="tapGroupManage" data-account="{{item.account}}" data-isadmin="{{item.isAdmin}}">...</view>
+
+      </view>
+    </block>
+    <view hidden="{{hasMore}}" class="loading complete">已加载全部</view>
+  </view>
+  <view wx:elif="{{!hasMore&&memberList.length==0}}" class="loading complete">暂无成员</view>
+
+
+
+</template>

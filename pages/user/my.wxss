@@ -1,0 +1,8 @@
+/* my.wxss */
+
+page {
+  display: block;
+  min-height: 100%;
+  background-color: #eeeeee;
+}
+

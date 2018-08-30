@@ -1,0 +1,119 @@
+<!--pages/group/index.wxml-->
+
+<import src="../template/grouplist.wxml" />
+<import src="../template/list.wxml" />
+
+<view class="container">
+
+  <view class="tab-m">
+    <form report-submit bindsubmit="tapSchool">
+      <view class="row" style="color:#18B4ED;font-size: 28rpx;font-weight:bold;;margin-top:0rpx;margin-left:10rpx;">
+        <view style="margin-left:10rpx;margin-top:10rpx;">
+          <image src="../../images/map.png" style="width:40rpx; height:40rpx;" />
+        </view>
+        <view style="margin-left:10rpx;">
+          <button formType="submit" class="button">{{school}}
+            <image src="../../images/s.png" style="width:20rpx; height:20rpx;" />
+          </button>
+        </view>
+        <view wx:if="{{schoolid!=''&&schoolid!='0'}}" style="margin-left:10rpx;margin-top:10rpx;">
+          <icon type="cancel" size="23" bindtap="tapClearSchool" style=""></icon>
+        </view>
+      </view>
+
+    </form>
+  </view>
+  <!--
+  <view class="tab-m">
+    <view class="nav">
+      <view class="nav-son {{shownavindex == 1? 'active' : ''}}" bindtap="listqy" data-nav="1">
+        <view class="content">{{title_city}}</view>
+        <view class="icon"></view>
+      </view>
+      <view class="nav-son borders {{shownavindex == 2? 'active' : ''}}" bindtap="listnz" data-nav="2">
+        <view class="content">{{title_school}}</view>
+        <view class="icon"></view>
+      </view>
+      <view class="nav-son {{shownavindex == 3? 'active' : ''}}" bindtap="listpx" data-nav="3">
+        <view class="content">排序</view>
+        <view class="icon"></view>
+      </view>
+    </view>
+  </view>
+-->
+
+  <!--
+  <view class="temp temp1 {{qyopen? 'slidown' : 'slidup'}} {{qyshow ? '':'disappear'}}">
+    <view wx:for="{{cityList}}" wx:key="categoryID" data-city='{{index}}' data-cityid='{{item.categoryID}}' data-name='{{item.categoryName}}' bindtap='selectcity' sytle="display:flex;" hover-class="weui-cell_active">
+      <text style="margin-left: 20px;">{{item.categoryName}}</text>
+    </view>
+  </view>
+  <view class="temp temp1 {{nzopen? 'slidown' : 'slidup'}} {{nzshow ? '':'disappear'}}">
+    <view wx:for="{{schoolList}}" wx:key="categoryID" data-city='{{index}}' data-cityid='{{item.categoryID}}' data-name='{{item.categoryName}}' bindtap='selectschool' sytle="display:flex;" hover-class="weui-cell_active">
+      <text style="margin-left: 20px;">{{item.categoryName}}</text>
+    </view>
+  </view>
+  <view class="temp temp1 {{pxopen? 'slidown' : 'slidup'}} {{pxshow ? '':'disappear'}}">
+    <view wx:for="{{px}}" wx:key="id" class="weui-cell" hover-class="weui-cell_active">
+      {{item.name}}
+    </view>
+  </view>
+-->
+  <scroll-view scroll-x="true" class="tab-h" scroll-left="{{scrollLeft}}">
+    <view wx:for="{{groupViews}}" wx:key="{{item.value}}" class="tab-item {{currentTab==item.current ? 'active' : ''}}" data-current="{{item.current}}" bindtap="swichNav">{{item.name}}</view>
+  </scroll-view>
+  <swiper class="tab-content" current="{{currentTab}}" duration="300" bindchange="switchTab" style="height:{{winHeight}}rpx">
+    <swiper-item>
+      <scroll-view scroll-y="true" class="scoll-h" bindscrolltolower="pullUpLoad">
+        <template is="postList" data="{{postList: postList, hasMore: event_hasMore, deg, colorArr}}"></template>
+        <!--
+          <block wx:if="{{postList.length==0}}">
+            <view class="weui-btn-area">
+
+            </view>
+          </block>
+        
+          <block wx:if="{{loadingHidden||postList.length>0}}">
+          <view class="weui-btn-area">
+            <button class="btn-block btn-blue button-add" hover-class="btn-blue-hover" bindtap="tapCreateEvent">发布</button>
+          </view>
+          </block>
+          -->
+      </scroll-view>
+    </swiper-item>
+    <swiper-item>
+      <scroll-view scroll-y="true" class="scoll-h" bindscrolltolower="pullUpLoad">
+        <template is="groupList" data="{{groupList: groupList, hasMore: group_hasMore, deg, colorArr}}"></template>
+        <!--
+          <block wx:if="{{groupList.length==0}}">
+            <view class="weui-btn-area">
+            </view>
+          </block>
+
+          <block wx:if="{{loadingHidden||groupList.length>0}}">
+            <view class="weui-btn-area">
+              <button class="btn-block btn-blue button-add" hover-class="btn-blue-hover" bindtap="tapCreateGroup">创建</button>
+            </view>
+          </block>
+          -->
+      </scroll-view>
+    </swiper-item>
+  </swiper>
+
+
+
+
+</view>
+
+
+
+<view class="fullbg {{isfull ?'fullopacity':''}}" bindtap="hidebg"></view>
+
+<view>
+  <loading hidden="{{loadingHidden}}">
+    加载中...
+  </loading>
+</view>
+<toast hidden="{{toastHidden}}" duration="1000" bindchange="onToastChanged">
+  {{toastText}}
+</toast>

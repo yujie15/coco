@@ -1,0 +1,87 @@
+<view class="container">
+  <!--<scroll-view class="c-minheight wx-scroll-view_MBKQjG" lower-threshold="50" scroll-y="True" style="overflow-x: hidden; overflow-y: auto; height:{{scrollHeight}}px;" upper-threshold="50" bindscrolltolower="bindDownLoad" bindscroll="scroll" bindscrolltoupper="refresh">-->
+
+  <view style="width:100%">
+
+    <view wx:if="{{!hasMore&&postList.length==0}}" class="loading complete">赶快去发一个吧！~</view>
+
+    <block wx:for="{{postList}}" wx:key="item.id">
+
+      <view class="item">
+        <view class="i-left">
+          <image class="c-u-img" src="{{item.avatar}}"></image>
+        </view>
+        <view class="i-right">
+          <view class="top">
+            <text class="u-name">{{item.nickname}}</text>
+            <text class="time">{{item.updatetimeShow}}</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="listitemWrap">
+        <view class="image_thumbView" hover-class="weui-cell_active" wx:if="{{item.url!=''}}">
+          <image class="image_thumb" mode="aspectFit" src="{{item.url}}" bindtap="imgPreview" data-bigcoverimgs="{{item.url}}" />
+        </view>
+        <text class="text_description">{{item.content}}</text>
+         <text class="c-block wx-text_t7lDiK">{{item.title}}</text>
+        <view class="bottomGrayboder listitemInfoWrap">
+          <view class="likeinfo">
+            <image wx:if="{{item.isLike=='1'}}" class="likebtn" src="../../images/zan.png" bindtap="tapUnLike" data-id="{{item.id}}"></image>
+            <image wx:else src="../../images/unzan.png" class="likebtn" bindtap="tapLike" data-id="{{item.id}}"></image>
+            <text class="c-block likeinfo_count">{{item.likeCount}}</text>
+            <image class="likebtn" src="../../images/comment.png" bindtap="tapComment" data-id="{{item.id}}"></image>
+          </view>
+          <text class="c-block wx-text_t7lDiK" wx:if="{{item.account==account}}" data-id="{{item.id}}" bindtap="delPosition">删除</text>
+        </view>
+        
+
+      </view>
+
+      <view class="commentlistwrap" wx:if="{{item.comments.length>0}}">
+        <view class="wx-view_8NFuqw">
+          <text class="c-block wx-text_t7lDiK">{{item.commentCount}}人点评</text>
+        </view>
+        <block wx:for="{{item.comments}}" wx:key="comment.comment_id" wx:for-item="comment" wx:for-index="commentindex">
+          <view class="commentlistitem item">
+            <navigator class="nav_userlink" hover-class="navigator-hover">
+              <view class="likeuser">
+                <image class="useravatar" mode="aspectFill" src="{{comment.fromuser.avatar}}" style="background-size: cover; background-position: center center; background-repeat: no-repeat; background-image: url({{comment.fromuser.avatar}}); " />
+              </view>
+            </navigator>
+            <view class="c-minheight wx-view_WnUrtw">
+              <view class="wx-view_F9ISUC">
+                <text class="wx-text_71u3gA">{{comment.fromuser.nickname}}</text>
+              </view>
+              <text class="c-block wx-text_kGXxsa">{{comment.comment_content}}</text>
+              <view class="comment_operate">
+                <view class="wx-view_h6iSr9">
+                  <view style="font-size: 12px;" wx:if="{{comment.fromuser.account==account}}" data-markid="{{comment.comment_id}}" bindtap="delComment">删除</view>
+                </view>
+                <text class="listitem_creattime">{{comment.comment_updatetimeShow}}</text>
+              </view>
+            </view>
+          </view>
+        </block>
+      </view>
+    </block>
+  </view>
+  <!--</scroll-view>-->
+</view>
+<view>
+  <loading hidden="{{loadingHidden}}">
+    加载中...
+  </loading>
+</view>
+
+<!--评论盒子-->
+<view class="cf-bg" catchtap="cemojiCfBg" style="display:{{commentShow ? 'block' : 'none'}}"></view>
+<view class="comment-fixed" style="display:{{commentShow ? 'block' : 'none'}}">
+  <view class="cf-box">
+    <textarea class="cf-content" bindfocus="textAreaFocus" maxlength="200" bindblur="textAreaBlur" bindconfirm="send" auto-height value="{{content}}" placeholder="我要评论" fixed="true" />
+    <text class="cf-send touch-active" bindtap="send">发送</text>
+  </view>
+</view>
+
+
+<button size="default" bindtap="goAdd" style="width: 100rpx; height: 100rpx; background-color: #fff;" class="add-btn"></button>

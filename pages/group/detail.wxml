@@ -1,0 +1,109 @@
+<!--pages/group/detail.wxml-->
+
+<import src="../template/list.wxml" />
+<button size="default" style="width: 100rpx; height: 100rpx; background-color: #fff;" class="home-btn" bindtap="bindTapIndex"></button>
+<button size="default" open-type="share" style="width: 100rpx; height: 100rpx; background-color: #fff;" class="share-btn"></button>
+<view class="container">
+  <view class="container-body space-content">
+    <view class="space-top">
+      <view class="space-banner" style="{{coverimgs.length==0?'display:none':''}}" bindtap="imgPreview">
+        <swiper autoplay="{{true}}" interval="{{4000}}" duration="{{1000}}" bindchange="setCurrent">
+          <block wx:for="{{coverimgs}}" wx:key="{{item.index}}">
+            <swiper-item>
+              <image src="{{item}}" mode="aspectFill" class="slide-image" wx:if="{item!=''}" />
+            </swiper-item>
+          </block>
+        </swiper>
+        <view class="number-banner">
+          <text>{{currentIndex>9?currentIndex:'0'+currentIndex}}</text>
+          <text>/{{coverimgs.length>9?coverimgs.length:'0'+coverimgs.length}}</text>
+        </view>
+      </view>
+      <!--
+      <view wx:if="{{cover!=''}}" style='width:100%;height:100%;text-align:center;'>
+        <image src="{{ cover }}" mode="aspectFit" binderror="imageHidden" bindtap="tapGroupFeature"></image>
+      </view>
+      -->
+      <view class="space-info">
+        <view class="space-title">{{group.name}}
+        </view>
+      </view>
+    </view>
+    <view class="space-block">
+      <view class="space-block-content">
+        <text>{{group.description}}</text>
+      </view>
+      <view class="space-block-title"  wx:if="{{group.cityid!='0'}}">所在地：{{group.cityName}}</view>
+      <view class="space-block-title"  wx:if="{{group.mpName!=''}}">公众号：{{group.mpName}}</view>
+    </view>
+    <view class="space-block">
+      <view class="space-block-content">
+        <view style=" display:flex;">
+          <view class="item1" style="flex:0 0 80rpx">
+            <image src="{{group.avatar}}" mode="aspectFill" class="weui-media-box__thumb  userinfo-avatar-small" data-account="{{group.account}}"></image>
+          </view>
+          <view class="item1" style="margin-left:10rpx; ">
+            <view style="display:flex;align-items:center ">
+              <view style="font-size: 24rpx;color: #555;">{{group.nickname}} </view>
+              <view wx:if="{{group.sex=='1'}}" style="margin-left:6rpx; ">
+                <image src="../../images/man.png" style="width: 24rpx; height: 24rpx; display: block" /> </view>
+              <view wx:else>
+                <image src="../../images/women.png" style="width: 24rpx; height: 24rpx; display: block" /> </view>
+            </view>
+            <view style="font-size: 24rpx;color: #555;">创建于{{group.groupupdatetimeShow}} {{group.countView}}人看过</view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="space-block">
+      <view class="space-block-title">最新加入</view>
+      <view class="space-block-content">
+        <scroll-view scroll-x="true" style=" white-space: nowrap; overflow:scroll;width:100%">
+          <block wx:for="{{memberList}}" wx:key="item.id">
+            <view style=" display: inline-block">
+              <image src="{{item.avatar}}" mode="aspectFill" class="weui-media-box__thumb userinfo-avatar" bindtap="bindTapHome" data-url="{{item.avatar}}" data-account="{{item.account}}"></image>
+            </view>
+          </block>
+        </scroll-view>
+        <view class="weui-cell__bd" style="display: flex;justify-content: center;font-size: 30rpx;color: #333;  padding: 10rpx;" bindtap="tapGroupMember">
+          更多成员
+        </view>
+      </view>
+    </view>    
+    <view class="space-block">
+      <view class="space-block-title">最新活动</view>
+      <view class="space-block-content">
+        <template is="postList" data="{{postList: postList, hasMore: event_hasMore, deg, colorArr}}"></template>
+      </view>
+      <view class="weui-cell__bd" style="display: flex;justify-content: center;font-size: 30rpx;color: #333;  padding: 10rpx;" wx:if="{{event_totalCount>5}}" bindtap="tapGroupEvent">
+        更多活动
+      </view>
+    </view>
+<!--
+    <view class="weui-btn-area">
+      <button class="btn-block btn-blue" hover-class="btn-blue-hover" bindtap="tapGroupEvent">圈子活动</button>
+    </view>
+    <view class="weui-btn-area">
+      <button class="btn-block btn-blue" hover-class="btn-blue-hover" bindtap="tapGroupFeature">圈子相册({{group.countTopic}})</button>
+    </view>
+    <view class="weui-btn-area">
+      <button class="btn-block btn-blue" hover-class="btn-blue-hover" bindtap="tapGroupMember">圈子成员({{group.countUser}})</button>
+    </view>
+    -->
+    <form report-submit bindsubmit="tapGroupJoin">
+      <view class="weui-btn-area" wx:if="{{isFounder=='0'}}">
+        <button formType="submit" class="btn-block btn-blue" hover-class="btn-blue-hover">{{btnName}}</button>
+      </view>
+    </form>
+    <view class="weui-btn-area" wx:if="{{isFounder=='1'||isAdmin=='1'}}">
+      <button class="btn-block btn-blue" hover-class="btn-blue-hover" bindtap="tapGroupAdmin">管理</button>
+    </view>
+  </view>
+</view>
+<action-sheet hidden="{{actionSheetHidden}}" bindchange="actionSheetbindchange">
+  <block wx:for-items="{{actionSheetItems}}" wx:key="item.bindtap">
+    <action-sheet-item bindtap="bindMenu{{item.bindtap}}">{{item.txt}}</action-sheet-item>
+  </block>
+  <action-sheet-cancel class="cancel">取消</action-sheet-cancel>
+</action-sheet>
