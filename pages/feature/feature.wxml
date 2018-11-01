@@ -24,7 +24,7 @@
           <image class="image_thumb" mode="aspectFit" src="{{item.url}}" bindtap="imgPreview" data-bigcoverimgs="{{item.url}}" />
         </view>
         <text class="text_description">{{item.content}}</text>
-         <text class="c-block wx-text_t7lDiK">{{item.title}}</text>
+        <text class="c-block wx-text_t7lDiK">{{item.title}}</text>
         <view class="bottomGrayboder listitemInfoWrap">
           <view class="likeinfo">
             <image wx:if="{{item.isLike=='1'}}" class="likebtn" src="../../images/zan.png" bindtap="tapUnLike" data-id="{{item.id}}"></image>
@@ -34,7 +34,7 @@
           </view>
           <text class="c-block wx-text_t7lDiK" wx:if="{{item.account==account}}" data-id="{{item.id}}" bindtap="delPosition">删除</text>
         </view>
-        
+
 
       </view>
 
@@ -78,7 +78,7 @@
 <view class="cf-bg" catchtap="cemojiCfBg" style="display:{{commentShow ? 'block' : 'none'}}"></view>
 <view class="comment-fixed" style="display:{{commentShow ? 'block' : 'none'}}">
   <view class="cf-box">
-    <textarea class="cf-content" bindfocus="textAreaFocus" maxlength="200" bindblur="textAreaBlur" bindconfirm="send" auto-height value="{{content}}" placeholder="我要评论" fixed="true" />
+    <textarea class="cf-content" bindfocus="textAreaFocus" maxlength="200" bindblur="textAreaBlur" bindconfirm="send" auto-height value="{{comment}}" placeholder="我要评论" fixed="true" />
     <text class="cf-send touch-active" bindtap="send">发送</text>
   </view>
 </view>

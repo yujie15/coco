@@ -49,8 +49,8 @@ var loadGroupData = function(that) {
   var add_groupid = (wx.getStorageSync('add_groupid') || 0);
   var mod_groupid = (wx.getStorageSync('mod_groupid') || 0);
 
-  console.log("add_groupid:" + add_groupid);
-  console.log("mod_groupid:" + mod_groupid);
+  //console.log("add_groupid:" + add_groupid);
+  //console.log("mod_groupid:" + mod_groupid);
   var groupid = 0;
 
   if (add_groupid > 0) {
@@ -158,9 +158,9 @@ Page({
     teamViews: [
 
       {
-        "name": "公开",
+        "name": "公开可见",
         "value": "1",
-        "note": "(在发现可见)"
+        "note": "（优质群组会在发现推荐）"
       },
 
       {
@@ -176,7 +176,6 @@ Page({
     errors: "",
     uploadimgs: [], //上传图片列表
     uploadurls: [], //上传图片URL列表    
-    disabled: false,
     editable: true,
     isNext: false,
     schoolHidden:false,
@@ -258,12 +257,25 @@ Page({
   bindToastTap: function(e) {
     var that = this;
     let formId = e.detail.formId;
-
+    app.collectFormIds(formId); //处理保存推送码
+    that.setData({
+      isNext: true
+    })
+    if (that.data.uploadimgs.length > 0) {
+      util.upload(app.uploadurl, that, that.submit);
+    } else {
+      setTimeout(function () {
+        that.submit();
+      }, 100)
+    }
+  },
+  submit: function() {
+    var that = this;
     if (that.data.title == '') {
       wx.showModal({
         content: "请填写名称",
         showCancel: false,
-        success: function(res) {}
+        success: function (res) { }
       });
       return;
     };
@@ -271,22 +283,11 @@ Page({
       wx.showModal({
         content: "请填写介绍",
         showCancel: false,
-        success: function(res) {}
+        success: function (res) { }
       });
       return;
     };
 
-    that.setData({
-      disabled: !this.data.disabled,
-      isNext: true
-    })
-    if (that.data.uploadimgs.length > 0) {
-      util.upload(app.uploadurl, that, that.submit);
-    } else {
-      that.submit();
-    }
-  },
-  submit: function() {
     wx.setStorageSync('group', this.data)
     wx.navigateTo({
       url: 'show'
@@ -322,15 +323,12 @@ Page({
   onLoad: function(options) {
 
     var that = this;
-
-
     that.setData({
       submitType: "add",
       groupid: 0,
       title: "",
       content: "",
       isNext: false,
-
     })
     loadSortData(that);
 
@@ -347,7 +345,6 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-    console.log("onShow");
     var that = this;
     app.checkLogin();
     this.setData({
@@ -362,8 +359,8 @@ Page({
    */
   onHide: function() {
     let that = this;
-    console.log("onHide<>" + this.data.submitType);
-    console.log("onHide<>" + this.data.isNext);
+    //console.log("onHide<>" + this.data.submitType);
+    //console.log("onHide<>" + this.data.isNext);
     //清除修改信息
     if (that.data.submitType == "mod" && !that.data.isNext) {
       that.onLoad();

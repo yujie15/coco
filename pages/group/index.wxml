@@ -5,24 +5,46 @@
 
 <view class="container">
 
+<!--
   <view class="tab-m">
     <form report-submit bindsubmit="tapSchool">
-      <view class="row" style="color:#18B4ED;font-size: 28rpx;font-weight:bold;;margin-top:0rpx;margin-left:10rpx;">
-        <view style="margin-left:10rpx;margin-top:10rpx;">
-          <image src="../../images/map.png" style="width:40rpx; height:40rpx;" />
+-->
+      <!--
+        <view wx:if="{{schoolid!=''&&schoolid!='0'}}" style="margin-left:0rpx;margin-top:10rpx;">
+          <icon type="cancel" size="15" bindtap="tapClearSchool"></icon>
         </view>
-        <view style="margin-left:10rpx;">
-          <button formType="submit" class="button">{{school}}
-            <image src="../../images/s.png" style="width:20rpx; height:20rpx;" />
-          </button>
+        -->
+<!--
+      <view class="weui-search-bar" style="padding-top:10rpx;">
+        <view class="row" style="margin-left:10rpx;margin-top:0rpx;padding: 0rpx;">
+          <view style="margin-left:5rpx;margin-top:0rpx;padding: 0rpx;">
+            <image src="../../images/map.png" style="width:30rpx; height:30rpx;" />
+          </view>
+          <view style="margin-left:5rpx;margin-top:0rpx;padding: 0rpx;">
+            <button formType="submit" class="button">{{school}}
+              <image src="../../images/s.png" style="width:20rpx; height:20rpx;" />
+            </button>
+          </view>
         </view>
-        <view wx:if="{{schoolid!=''&&schoolid!='0'}}" style="margin-left:10rpx;margin-top:10rpx;">
-          <icon type="cancel" size="23" bindtap="tapClearSchool" style=""></icon>
-        </view>
-      </view>
 
+        <view class="weui-search-bar__form" style="margin-top:0rpx; margin-left:20rpx; padding: 0rpx;height:60rpx;">
+          <view class="weui-search-bar__box">
+            <input type="text" class="weui-search-bar__input" value="{{keyword}}" placeholder="搜索" />
+          </view>
+          <label class="weui-search-bar__label" bindtap="tapSearch">
+            <icon class="weui-icon-search" type="search" size="14"></icon>
+            <view class="weui-search-bar__text">搜索</view>
+          </label>
+        </view>
+
+
+      </view>
+-->
+<!--
     </form>
   </view>
+  -->
+
   <!--
   <view class="tab-m">
     <view class="nav">
@@ -60,11 +82,16 @@
   </view>
 -->
   <scroll-view scroll-x="true" class="tab-h" scroll-left="{{scrollLeft}}">
+
     <view wx:for="{{groupViews}}" wx:key="{{item.value}}" class="tab-item {{currentTab==item.current ? 'active' : ''}}" data-current="{{item.current}}" bindtap="swichNav">{{item.name}}</view>
   </scroll-view>
   <swiper class="tab-content" current="{{currentTab}}" duration="300" bindchange="switchTab" style="height:{{winHeight}}rpx">
     <swiper-item>
       <scroll-view scroll-y="true" class="scoll-h" bindscrolltolower="pullUpLoad">
+        <view wx:if="{{cover!=''}}" style="width:100%;text-align:center;" bindtap="tapComments">
+          <image src="{{ cover }}" mode="widthFix" style="width:100%;"></image>
+        </view>
+
         <template is="postList" data="{{postList: postList, hasMore: event_hasMore, deg, colorArr}}"></template>
         <!--
           <block wx:if="{{postList.length==0}}">

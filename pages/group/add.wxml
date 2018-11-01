@@ -71,8 +71,8 @@
     <view class="page__hd">
       <view class="page__title">小提示：</view>
       <view class="page__desc">
-        <view>1.可以将创建的社群关联到公众号菜单，通过我的查看具体步骤； </view>
-        <view>2.社群活动信息发布之后自动微信通知社员参加。 </view>
+        <view>1.可以将创建的群组关联到公众号菜单，通过我的查看具体步骤； </view>
+        <view>2.群组活动信息发布之后自动微信通知社员参加。 </view>
       </view>
     </view>
 

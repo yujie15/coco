@@ -25,14 +25,14 @@ function loadPageData(that) {
 
   var url1 = app.apiurl;
   network_util._post_json(url1, reqData,
-    function (res) {
+    function(res) {
       var result = res.data.result;
       var message = res.data.message;
       if (result != "0") {
         wx.showModal({
           content: message,
           showCancel: false,
-          success: function (res) { }
+          success: function(res) {}
         });
         return;
       }
@@ -95,6 +95,15 @@ function loadPageData(that) {
           //disabled: true,
         });
       }
+
+      console.log(that.data.isAuthor);
+      if (data1.account == app.globalData.account) {
+        that.setData({
+          isAuthor: true
+        });
+      }
+      console.log(that.data.isAuthor);
+
       //截掉标签末尾,
       var tags = data1.tags;
       tags = (tags.substring(tags.length - 1) == ',') ? tags.substring(0, tags.length - 1) : tags;
@@ -110,11 +119,11 @@ function loadPageData(that) {
         loadingHidden: true,
       });
     },
-    function (res) {
+    function(res) {
       wx.showModal({
         content: '网络连接失败',
         showCancel: false,
-        success: function (res) { }
+        success: function(res) {}
       });
     });
 }
@@ -122,7 +131,7 @@ function loadPageData(that) {
 
 
 
-var loadApplyeData = function (that) {
+var loadApplyeData = function(that) {
   var url1 = app.apiurl;
   var reqData = {
     "method": "getPostFeelByRelation",
@@ -142,7 +151,7 @@ var loadApplyeData = function (that) {
       url: url1
     };
     http_util.httpPost(test).then(
-      function (res) {
+      function(res) {
 
         var result = res.result;
         var message = res.message;
@@ -157,7 +166,7 @@ var loadApplyeData = function (that) {
           wx.showModal({
             content: message,
             showCancel: false,
-            success: function (res) { }
+            success: function(res) {}
           });
           return;
         }
@@ -172,16 +181,16 @@ var loadApplyeData = function (that) {
         }
 
       },
-      function (res) {
+      function(res) {
 
         wx.showModal({
           content: '网络连接失败',
           showCancel: false,
-          success: function (res) { }
+          success: function(res) {}
         });
       }
 
-    ).catch(function (err) {
+    ).catch(function(err) {
       console.log(err);
     });
 
@@ -194,7 +203,7 @@ var loadApplyeData = function (that) {
 
 
 
-var loadCommentData = function (that) {
+var loadCommentData = function(that) {
   that.setData({
     loadingHidden: false,
   });
@@ -217,7 +226,7 @@ var loadCommentData = function (that) {
       "start": (comment_pageNum - 1) * comment_pageSize,
       "count": comment_pageSize,
       "isFriended": 0,
-      "order": "likes",
+      "order": that.data.commentOrder,
     }
   }
 
@@ -229,7 +238,7 @@ var loadCommentData = function (that) {
       url: url1
     };
     http_util.httpPost(test).then(
-      function (res) {
+      function(res) {
 
         that.setData({
           loadingHidden: true,
@@ -251,7 +260,7 @@ var loadCommentData = function (that) {
           wx.showModal({
             content: message,
             showCancel: false,
-            success: function (res) { }
+            success: function(res) {}
           });
           return;
         }
@@ -271,18 +280,18 @@ var loadCommentData = function (that) {
         };
 
       },
-      function (res) {
+      function(res) {
         that.setData({
           loadingHidden: true,
         });
         wx.showModal({
           content: '网络连接失败',
           showCancel: false,
-          success: function (res) { }
+          success: function(res) {}
         });
       }
 
-    ).catch(function (err) {
+    ).catch(function(err) {
       console.log(err);
     });
 
@@ -310,7 +319,7 @@ function count_down(that) {
     // timeout则跳出递归
     return;
   }
-  setTimeout(function () {
+  setTimeout(function() {
     // 放在最后--
     total_micro_second -= 10;
     count_down(that);
@@ -362,7 +371,7 @@ Page({
     account: "",
     avatar: "../../images/msn.png",
     clock: '',
-
+    isAuthor: false,
     isPopping: false, //是否已经弹出
     animPlus: {}, //旋转动画
     animCollect: {}, //item位移,透明度
@@ -372,21 +381,21 @@ Page({
 
     actionSheetHidden: true,
     actionSheetItems: [{
-      bindtap: 'EditPost',
-      txt: '修改活动'
-    },
-    {
-      bindtap: 'ImgPreview',
-      txt: '二维码'
-    },
-    {
-      bindtap: 'ModalShow',
-      txt: '下载报名'
-    },
-    {
-      bindtap: 'AddPost',
-      txt: '再发一个'
-    },
+        bindtap: 'EditPost',
+        txt: '修改活动'
+      },
+      {
+        bindtap: 'ImgPreview',
+        txt: '二维码'
+      },
+      {
+        bindtap: 'ModalShow',
+        txt: '下载报名'
+      },
+      {
+        bindtap: 'AddPost',
+        txt: '再发一个'
+      },
       {
         bindtap: 'DelPost',
         txt: '删除活动'
@@ -396,10 +405,15 @@ Page({
     email: "",
     nocancel: false,
     animationData: '',
-    showModalStatus: false
+    showModalStatus: false,
+    commentShow: false,
+    commentId: 0,
+    comment: "",
 
+    commentOrder: "",
+    commentOrderTitle: "最新",
   },
-  callContact: function (e) { //拨打电话
+  callContact: function(e) { //拨打电话
     wx.makePhoneCall({
       phoneNumber: e.currentTarget.dataset.phonenumber
     })
@@ -407,7 +421,7 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
+  onShow: function() {
     //console.log("用户登录账户：" + app.globalData.account);
 
     console.log("app.reload:" + app.reload);
@@ -415,6 +429,7 @@ Page({
       app.reload = "";
       this.onLoad();
     }
+
 
 
     var formIds = app.globalData.gloabalFomIds; // 获取gloabalFomIds
@@ -427,9 +442,11 @@ Page({
     });
 
 
+
+
   },
 
-  onLoad: function (options) {
+  onLoad: function(options) {
     wx.showShareMenu({
       withShareTicket: true
     })
@@ -439,7 +456,7 @@ Page({
         postid: options.postid,
       })
     }
-    console.log("postid:" + this.data.postid);
+    //console.log("postid:" + this.data.postid);
 
     that.setData({
       applyList: [],
@@ -453,29 +470,39 @@ Page({
     loadPageData(this);
     loadApplyeData(this);
     loadCommentData(this);
+
+
+    if (options&&options.markid) {
+      console.log("go comment");
+      wx.navigateTo({
+        url: "../detail/comment?markid=" + options.markid
+      })
+      return;
+    }
+
   },
 
-  onReachBottom: function () {
+  onReachBottom: function() {
     loadCommentData(this);
   },
 
-  pullUpLoadApply: function () {
+  pullUpLoadApply: function() {
     //console.log("pullUpLoadApply");
     loadApplyeData(this);
   },
 
-  modalCancel: function () {
+  modalCancel: function() {
     this.setData({
       modalHidden: true,
       size: "",
     });
   },
-  modalConfirm: function () {
+  modalConfirm: function() {
     if (this.data.size == "") {
       wx.showModal({
         content: '请填写口令',
         showCancel: false,
-        success: function (res) { }
+        success: function(res) {}
       });
       return;
     }
@@ -485,14 +512,14 @@ Page({
     this.createCommentFeel();
   },
 
-  bindInputSize: function (e) {
+  bindInputSize: function(e) {
     this.setData({
       size: e.detail.value
     })
   },
 
 
-  bindSubmitActivities: function (e) {
+  bindSubmitActivities: function(e) {
 
     var that = this;
     that.setData({
@@ -506,7 +533,7 @@ Page({
       wx.showModal({
         title: '提示',
         content: '是否取消该报名?',
-        success: function (res) {
+        success: function(res) {
           if (res.confirm) {
             var url1 = app.apiurl;
             var reqData = {
@@ -523,14 +550,14 @@ Page({
               url: url1
             };
             http_util.httpPost(test).then(
-              function (res) {
+              function(res) {
                 var result = res.result;
                 var message = res.message;
                 if (result != "0") {
                   wx.showModal({
                     content: message,
                     showCancel: false,
-                    success: function (res) {
+                    success: function(res) {
 
                     }
                   });
@@ -545,14 +572,14 @@ Page({
                 return;
 
               },
-              function (res) {
+              function(res) {
                 wx.showModal({
                   content: '网络连接失败',
                   showCancel: false,
-                  success: function (res) { }
+                  success: function(res) {}
                 });
               }
-            ).catch(function (err) {
+            ).catch(function(err) {
               console.log(err);
             });
 
@@ -582,7 +609,7 @@ Page({
       } else {
         wx.showModal({
           content: "确定报名?",
-          success: function (res) {
+          success: function(res) {
             if (!res.confirm) {
               return;
             }
@@ -593,7 +620,7 @@ Page({
     }
   },
 
-  dealFormIds: function (formId) {
+  dealFormIds: function(formId) {
     let formIds = app.globalData.gloabalFomIds; //获取全局数据中的推送码gloabalFomIds数组
     if (!formIds) formIds = [];
     let data = {
@@ -605,7 +632,7 @@ Page({
   },
 
 
-  createCommentFeel: function (e) {
+  createCommentFeel: function(e) {
 
     var that = this;
     var url1 = app.apiurl;
@@ -638,17 +665,17 @@ Page({
       url: url1
     };
     http_util.httpPost(test).then(
-      function (res) {
+      function(res) {
         var result = res.result;
         var message = res.message;
         if (result != "0") {
           wx.showModal({
             content: message,
             showCancel: false,
-            success: function (res) {
+            success: function(res) {
               if (result == "10100") {
                 //调用应用实例的方法获取全局数据
-                app.getUserInfo(function (userInfo) {
+                app.getUserInfo(function(userInfo) {
                   //更新数据，页面自动渲染
                   that.setData({
                     userInfo: userInfo
@@ -670,19 +697,56 @@ Page({
         return;
 
       },
-      function (res) {
+      function(res) {
         wx.showModal({
           content: '网络连接失败',
           showCancel: false,
-          success: function (res) { }
+          success: function(res) {}
         });
       }
-    ).catch(function (err) {
+    ).catch(function(err) {
       console.log(err);
     });
   },
 
-  onShareAppMessage: function () {
+  onShareAppMessage: function(options) {
+
+
+    　　
+    var that = this;　　 // 设置菜单中的转发按钮触发转发事件时的转发内容
+    　　
+    var shareObj = {　　　　
+      title: this.data.userpost.title, // 默认是小程序的名称(可以写slogan等)
+      　　　　path: '/pages/detail/detail?postid=' + this.data.userpost.id, // 默认是当前页面，必须是以‘/’开头的完整路径
+      desc: this.data.userpost.description,
+      　　　　imgUrl: 'https://sports.ttyclub.com/images/logo/group/default.png', //自定义图片路径，可以是本地文件路径、代码包文件路径或者网络图片路径，支持PNG及JPG，不传入 imageUrl 则使用默认截图。显示图片长宽比是 5:4
+      　　　　success: function(res) {　　　　　　 // 转发成功之后的回调
+        　　　　　　
+        if (res.errMsg == 'shareAppMessage:ok') {　　　　　　}　　　　
+      },
+      　　　　fail: function() {　　　　　　 // 转发失败之后的回调
+        　　　　　　
+        if (res.errMsg == 'shareAppMessage:fail cancel') {　　　　　　　　 // 用户取消转发
+          　　　　　　} else if (res.errMsg == 'shareAppMessage:fail') {　　　　　　　　 // 转发失败，其中 detail message 为详细失败信息
+          　　　　　　}　　　　
+      },
+      　　　　complete: function() {　　　　　　 // 转发结束之后的回调（转发成不成功都会执行）
+        　　　　}　　
+    }
+
+    // 来自页面内的按钮的转发
+    　　
+    if (options.from == 'button') {　　　　
+      var eData = options.target.dataset;　　　　
+      console.log(eData.name); // shareBtn
+      console.log(eData.markid); // shareBtn
+      　　　　 // 此处可以修改 shareObj 中的内容
+      shareObj.path = '/pages/detail/detail?postid=' + this.data.userpost.id + "&markid=" + eData.markid;　　
+    }
+
+    return shareObj;
+
+    /*
 
     return {
       title: this.data.userpost.title,
@@ -703,20 +767,31 @@ Page({
 
       }
     }
+    */
   },
 
-  bindTapComment: function () {
+  bindTapComment: function() {
     wx.navigateTo({
       url: '../detail/apply?postid=' + this.data.postid
     })
   },
 
-  setCurrent: function (e) { //当前图片索引
+
+  tapViewComment: function(e) {
+    let that = this;
+    var markId = e.currentTarget.dataset.markid;
+    wx.navigateTo({
+      url: '../detail/comment?markid=' + markId
+    })
+  },
+
+
+  setCurrent: function(e) { //当前图片索引
     this.setData({
       currentIndex: e.detail.current + 1
     })
   },
-  imgPreview: function () { //图片预览
+  imgPreview: function() { //图片预览
     const imgs = this.data.bigcoverimgs;
     wx.previewImage({
       current: imgs[this.data.currentIndex - 1], // 当前显示图片的http链接
@@ -724,7 +799,7 @@ Page({
     })
   },
 
-  avatarPreview: function (e) { //图片预览
+  avatarPreview: function(e) { //图片预览
     if (e.currentTarget.dataset.url != "") {
       const imgs = [e.currentTarget.dataset.url];
       wx.previewImage({
@@ -736,18 +811,18 @@ Page({
 
 
 
-  bindTapMap: function () {
+  bindTapMap: function() {
     wx.navigateTo({
       url: '../map/map?query=' + this.data.userpost.tags
     })
   },
 
-  bindTapHome: function (e) {
+  bindTapHome: function(e) {
     wx.navigateTo({
       url: '../home/home?user=' + e.currentTarget.dataset.account
     })
   },
-  bindTapModify: function (e) {
+  bindTapModify: function(e) {
     wx.setStorageSync('mod_postid', this.data.postid);
     wx.navigateTo({
       url: '../add/add'
@@ -756,19 +831,19 @@ Page({
   },
 
 
-  bindTapIndex: function (e) {
+  bindTapIndex: function(e) {
     wx.switchTab({
       url: '../coco/event'
     })
   },
 
-  bindApplyList: function (e) {
+  bindApplyList: function(e) {
     wx.navigateTo({
       url: '../myconferencelist/applylist?postid=' + this.data.postid
     })
   },
   //点击弹出
-  plus: function () {
+  plus: function() {
     if (this.data.isPopping) {
       //缩回动画
       this.popp();
@@ -785,7 +860,7 @@ Page({
   },
 
   //弹出动画
-  popp: function () {
+  popp: function() {
     //plus顺时针旋转
     var animationPlus = wx.createAnimation({
       duration: 500,
@@ -824,7 +899,7 @@ Page({
     })
   },
   //收回动画
-  takeback: function () {
+  takeback: function() {
     //plus逆时针旋转
     var animationPlus = wx.createAnimation({
       duration: 500,
@@ -853,18 +928,18 @@ Page({
       animInput: animationInput.export(),
     })
   },
-  tapEventManage: function (event) {
+  tapEventManage: function(event) {
     this.setData({
       actionSheetHidden: !this.data.actionSheetHidden
     })
   },
-  actionSheetbindchange: function () {
+  actionSheetbindchange: function() {
     this.setData({
       actionSheetHidden: !this.data.actionSheetHidden
     })
   },
 
-  bindMenuEditPost: function () {
+  bindMenuEditPost: function() {
     var that = this;
 
     this.setData({
@@ -875,7 +950,7 @@ Page({
     that.bindTapModify();
 
   },
-  bindMenuImgPreview: function (e) { //图片预览
+  bindMenuImgPreview: function(e) { //图片预览
 
     this.setData({
       actionSheetHidden: !this.data.actionSheetHidden
@@ -889,7 +964,7 @@ Page({
       urls: imgArray // 需要预览的图片http链接列表
     })
   },
-  bindMenuModalShow: function (e) { //图片预览
+  bindMenuModalShow: function(e) { //图片预览
     this.setData({
       actionSheetHidden: !this.data.actionSheetHidden
     })
@@ -897,7 +972,7 @@ Page({
     this.emailModalShow();
   },
 
-  bindMenuAddPost: function (e) { //图片预览
+  bindMenuAddPost: function(e) { //图片预览
     this.setData({
       actionSheetHidden: !this.data.actionSheetHidden
     })
@@ -907,8 +982,13 @@ Page({
       url: '../add/add'
     })
   },
+  bindGroupHome: function (e) { //图片预览
 
-  bindMenuDelPost: function (e) { //图片预览
+    wx.navigateTo({
+      url: '../group/detail?groupid='+this.data.userpost.groupId
+    })
+  },
+  bindMenuDelPost: function(e) { //图片预览
     this.setData({
       actionSheetHidden: !this.data.actionSheetHidden
     })
@@ -919,7 +999,7 @@ Page({
     wx.showModal({
       title: '提示',
       content: '确认删除该活动?',
-      success: function (res) {
+      success: function(res) {
         if (res.confirm) {
           var url1 = app.apiurl;
           var reqData = {
@@ -932,38 +1012,47 @@ Page({
           };
 
 
-          var test = { data: reqData, url: url1 };
+          var test = {
+            data: reqData,
+            url: url1
+          };
           http_util.httpPost(test).then(
-            function (res) {
+            function(res) {
               var result = res.result;
               var message = res.message;
               if (result != "0") {
                 wx.showModal({
                   content: message,
                   showCancel: false,
-                  success: function (res) {
+                  success: function(res) {
 
                   }
                 });
                 return;
               }
               wx.showToast({
-                title: '删除成功',
+                title: message,
                 icon: 'success',
                 duration: 1000
               })
-              that.onLoad();
+
+              app.reload = "2";
+
+              wx.switchTab({
+                url: '/pages/coco/event',
+                success: function (e) { }
+              })              
               return;
 
-            }, function (res) {
+            },
+            function(res) {
               wx.showModal({
                 content: '网络连接失败',
                 showCancel: false,
-                success: function (res) {
-                }
+                success: function(res) {}
               });
             }
-          ).catch(function (err) {
+          ).catch(function(err) {
             console.log(err);
           });
 
@@ -974,13 +1063,13 @@ Page({
 
   },
 
-  emailModalShow: function (e) {
+  emailModalShow: function(e) {
     this.setData({
       emailModalHidden: false
     })
   },
 
-  emailModalCancel: function () {
+  emailModalCancel: function() {
     this.setData({
       email: "",
       emailModalHidden: true,
@@ -988,7 +1077,7 @@ Page({
   },
 
 
-  emailModalConfirm: function (e) {
+  emailModalConfirm: function(e) {
 
     let that = this;
 
@@ -996,7 +1085,7 @@ Page({
       wx.showModal({
         content: '请填写邮箱',
         showCancel: false,
-        success: function (res) { }
+        success: function(res) {}
       });
       return;
     }
@@ -1024,7 +1113,7 @@ Page({
         url: url1
       };
       http_util.httpPost(test).then(
-        function (res) {
+        function(res) {
           that.setData({
             loadingHidden: true,
             email: "",
@@ -1035,7 +1124,7 @@ Page({
             wx.showModal({
               content: message,
               showCancel: false,
-              success: function (res) { }
+              success: function(res) {}
             });
             return;
           }
@@ -1048,18 +1137,18 @@ Page({
 
 
         },
-        function (res) {
+        function(res) {
           that.setData({
             loadingHidden: true,
           });
           wx.showModal({
             content: '网络连接失败',
             showCancel: false,
-            success: function (res) { }
+            success: function(res) {}
           });
         }
 
-      ).catch(function (err) {
+      ).catch(function(err) {
         console.log(err);
       });
 
@@ -1072,12 +1161,176 @@ Page({
 
   },
 
-  bindInputEmail: function (e) {
+  bindInputEmail: function(e) {
     this.setData({
       email: e.detail.value
     })
   },
-  tapLike: function (e) {
+
+
+  //点击emoji背景遮罩隐藏emoji盒子
+  cemojiCfBg: function() {
+    this.setData({
+      commentShow: false
+    })
+  },
+
+  //文本域获得焦点事件处理
+  textAreaFocus: function() {
+    this.setData({})
+  },
+  //文本域失去焦点时 事件处理
+  textAreaBlur: function(e) {
+    //获取此时文本域值
+    this.setData({
+      comment: e.detail.value
+    })
+  },
+
+
+  bindCommentOrder: function(e) {
+
+    let that = this;
+    if (that.data.commentOrder == "") {
+      that.setData({
+        commentOrder: "likes",
+        commentOrderTitle: "热门"
+      })
+    } else {
+      that.setData({
+        commentOrder: "",
+        commentOrderTitle: "最新"
+      })
+    }
+    that.setData({
+      commentList: [],
+      hasMore: true,
+      loadingHidden: true,
+    })
+
+    comment_pageNum = 1;
+    loadCommentData(this);
+  },
+
+  tapComment: function(e) {
+    let that = this;
+    var markId = e.currentTarget.dataset.markid;
+    that.setData({
+      commentId: markId,
+      commentShow: true
+    });
+  },
+  send: function() {
+    var that = this;
+    //此处延迟的原因是 在点发送时 先执行失去文本焦点 再执行的send 事件 此时获取数据不正确 故手动延迟100毫秒
+    setTimeout(function() {
+      that.addComment();
+    }, 100)
+  },
+
+  addComment: function() {
+
+    var that = this,
+      conArr = [];
+
+    let currentIndex = that.data.commentList.findIndex(item => item.markId === that.data.commentId);
+    var comments = that.data.commentList[currentIndex].comments;
+
+    if (that.data.comment == "") {
+      that.setData({
+        comment: "", //清空文本域值
+        commentShow: true
+      })
+      return;
+    };
+
+    that.setData({
+      loadingHidden: false,
+    });
+
+    var url1 = app.apiurl;
+
+    var reqData = {
+      "method": "accountCommentPost",
+      "parameters": {
+        "account": app.globalData.account,
+        "password": app.globalData.password,
+        "id": that.data.postid,
+        "markId": that.data.commentId,
+        "content": that.data.comment,
+
+      }
+    };
+    try {
+      var test = {
+        data: reqData,
+        url: url1
+      };
+      http_util.httpPost(test).then(
+        function(res) {
+          that.setData({
+            loadingHidden: true,
+          });
+          var result = res.result;
+          var message = res.message;
+          if (result != "0") {
+            wx.showModal({
+              content: message,
+              showCancel: false,
+              success: function(res) {
+                if (result == "10100") {
+                  //调用应用实例的方法获取全局数据
+                  app.getUserInfo(function(userInfo) {
+                    //更新数据，页面自动渲染
+                    that.setData({
+                      userInfo: userInfo
+                    })
+                  })
+                }
+
+              }
+            });
+            return;
+          }
+
+          wx.showToast({
+            title: '评论成功',
+            icon: 'success',
+            duration: 1000
+          })
+
+          comments.push(res.data);
+          that.setData({
+            comment: "", //清空文本域值
+            commentShow: false,
+            ["commentList[" + currentIndex + "].comments"]: comments,
+          })
+
+
+
+        },
+        function(res) {
+          that.setData({
+            loadingHidden: true,
+          });
+          wx.showModal({
+            content: '网络连接失败',
+            showCancel: false,
+            success: function(res) {}
+          });
+        }
+
+      ).catch(function(err) {
+        console.log(err);
+      });
+
+    } catch (error) {
+      console.log(error.message);
+    } finally {
+
+    }
+  },
+  tapLike: function(e) {
     let that = this;
     var markId = e.currentTarget.dataset.markid;
     let currentIndex = that.data.commentList.findIndex(item => item.markId === markId);
@@ -1105,31 +1358,41 @@ Page({
         url: url1
       };
       http_util.httpPost(test).then(
-        function (res) {
+        function(res) {
           var result = res.result;
           var message = res.message;
           if (result != "0") {
             wx.showModal({
               content: message,
               showCancel: false,
-              success: function (res) { }
+              success: function(res) {
+                if (result == "10100") {
+                  //调用应用实例的方法获取全局数据
+                  app.getUserInfo(function(userInfo) {
+                    //更新数据，页面自动渲染
+                    that.setData({
+                      userInfo: userInfo
+                    })
+                  })
+                }
+              }
             });
             return;
           }
 
         },
-        function (res) {
+        function(res) {
           that.setData({
             loadingHidden: true,
           });
           wx.showModal({
             content: '网络连接失败',
             showCancel: false,
-            success: function (res) { }
+            success: function(res) {}
           });
         }
 
-      ).catch(function (err) {
+      ).catch(function(err) {
         console.log(err);
       });
 
@@ -1141,13 +1404,13 @@ Page({
   },
 
 
-  delComment: function (event) {
+  delComment: function(event) {
     let that = this;
 
     wx.showModal({
       title: '提示',
       content: '确认删除?',
-      success: function (res) {
+      success: function(res) {
         if (res.confirm) {
           var url1 = app.apiurl;
           var reqData = {
@@ -1165,14 +1428,14 @@ Page({
             url: url1
           };
           http_util.httpPost(test).then(
-            function (res) {
+            function(res) {
               var result = res.result;
               var message = res.message;
               if (result != "0") {
                 wx.showModal({
                   content: message,
                   showCancel: false,
-                  success: function (res) {
+                  success: function(res) {
 
                   }
                 });
@@ -1187,14 +1450,14 @@ Page({
               return;
 
             },
-            function (res) {
+            function(res) {
               wx.showModal({
                 content: '网络连接失败',
                 showCancel: false,
-                success: function (res) { }
+                success: function(res) {}
               });
             }
-          ).catch(function (err) {
+          ).catch(function(err) {
             console.log(err);
           });
 
@@ -1206,37 +1469,37 @@ Page({
   },
 
   //关闭窗口
-  powerDrawer: function (e) {
+  powerDrawer: function(e) {
     var currentStatu = e.currentTarget.dataset.statu;
     this.showWeburl(currentStatu)
-  }, 
+  },
 
 
-  previewImage: function (e) {
+  previewImage: function(e) {
     let that = this;
 
     var current = e.target.dataset.src
     var ImageLinkArray = [current]
     wx.previewImage({
       current: current,
-      urls: ImageLinkArray,//内部的地址为绝对路径
-      fail: function () {
+      urls: ImageLinkArray, //内部的地址为绝对路径
+      fail: function() {
         console.log('fail')
       },
-      complete: function () {
+      complete: function() {
         console.info("点击图片了");
         that.showWeburl("close");
       },
     })
   },
 
-  showWeburl: function (currentStatu) {
+  showWeburl: function(currentStatu) {
     /* 动画部分 */
     // 第1步：创建动画实例   
     var animation = wx.createAnimation({
-      duration: 200,  //动画时长  
+      duration: 200, //动画时长  
       timingFunction: "linear", //线性  
-      delay: 0  //0则不延迟  
+      delay: 0 //0则不延迟  
     });
 
     // 第2步：这个动画实例赋给当前的动画实例  
@@ -1251,7 +1514,7 @@ Page({
     })
 
     // 第5步：设置定时器到指定时候后，执行第二组动画  
-    setTimeout(function () {
+    setTimeout(function() {
       // 执行第二组动画  
       animation.opacity(1).rotateX(0).step();
       // 给数据对象储存的第一组动画，更替为执行完第二组动画的动画对象  
@@ -1261,22 +1524,33 @@ Page({
 
       //关闭  
       if (currentStatu == "close") {
-        this.setData(
-          {
-            showModalStatus: false
-          }
-        );
+        this.setData({
+          showModalStatus: false
+        });
       }
     }.bind(this), 200)
 
     // 显示  
     if (currentStatu == "open") {
-      this.setData(
-        {
-          showModalStatus: true
-        }
-      );
+      this.setData({
+        showModalStatus: true
+      });
     }
-  }
+  },
+  boardimgPreview: function(e) { //图片预览
 
+    var cover = e.currentTarget.dataset.cover;
+    if (cover != null && cover != "") {
+      cover = cover.replace(/_sm/g, "");
+    } else {
+      return;
+    }
+
+    var imgArray = [];
+    imgArray.push(cover);
+    wx.previewImage({
+      current: cover, // 当前显示图片的http链接
+      urls: imgArray // 需要预览的图片http链接列表
+    })
+  },
 })

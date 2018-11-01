@@ -1,0 +1,51 @@
+<template name="commentmsg">
+  <view style="display:flex;flex-wrap: nowrap;margin-top:16rpx;width:100%">
+    <view style="margin :5rpx;">
+      <image src="{{answermsg.avatar}}" mode="aspectFill" class="weui-media-box__thumb  userinfo-avatar-small" data-url="{{answermsg.avatar}}" data-account="{{answermsg.account}}"></image>
+    </view>
+    <view style="display:inline-flex;flex-direction:column;width:100%;margin-left :20rpx;">
+      <view style="display:inline-flex;flex-direction:row;width:100%;align-items:center">
+        <view style="width:60%;font-size:30rpx;">{{answermsg.usernickname}}</view>
+        <view class="space-time" style="width:40%">{{answermsg.updatetimeShow}}</view>
+      </view>
+      <view class="comment-text">
+        <text>{{answermsg.content}}</text>
+        <view class="image_thumbView" hover-class="weui-cell_active" wx:if="{{answermsg.cover!=''}}" style="margin-top:16rpx;">
+          <image class="image_thumb" mode="aspectFit" src="{{answermsg.cover}}" bindtap="boardimgPreview" data-cover="{{answermsg.cover}}" />
+        </view>
+        <block wx:if="{{answermsg}}">
+          <view style="display:inline-flex;flex-direction:row;width:100%;align-items:center;margin-top :20rpx;">
+            <view style="width:50%;font-size:24rpx;">
+              <text wx:if="{{isAuthor||answermsg.account==account}}" data-markid="{{answermsg.markId}}" bindtap="delComment">删除</text>
+            </view>
+            <view class="likeinfo" style="width:50%">
+              <button data-name=" shareBtn" open-type="share" class="comment-sharebtn" plain="true" data-markid="{{answermsg.markId}}" data-id="{{answermsg.id}}">
+                <image src='../../images/sharebt.png' class="likebtn"></image>
+              </button>
+              <image class="likebtn" src="../../images/comment.png" bindtap="tapComment" data-markid="{{answermsg.markId}}"></image>
+              <text class="likeinfo_count"  data-markid="{{answermsg.markId}}" bindtap="tapViewComment">{{answermsg.comments.length}}</text>
+              <image wx:if="{{answermsg.isLike=='1'}}" class="likebtn" src="../../images/zan.png" data-markid="{{answermsg.markId}}"></image>
+              <image wx:else src="../../images/unzan.png" class="likebtn" bindtap="tapLike" data-markid="{{answermsg.markId}}"></image>
+              <text class="likeinfo_count">{{answermsg.likes}}</text>
+            </view>
+          </view>
+        </block> 
+        
+        <block wx:for="{{answermsg.comments}}" wx:key="answermsg.markId" wx:for-item="item"  wx:if="{{answermsg&&isMoreComment}}">
+          <view class="comment-box">
+            <view>
+              <text>{{item.nickname}}</text>
+            </view>
+            <view>
+              <text>{{item.content}}</text>
+            </view>
+            <view style="font-size:24rpx;">
+              <text wx:if="{{isAuthor||item.account==account}}" data-markid="{{item.markId}}" bindtap="delComment">删除</text>
+            </view>
+          </view>
+        </block>
+        
+      </view>
+    </view>
+  </view>
+</template>

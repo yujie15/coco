@@ -1,4 +1,4 @@
-var app = getApp()
+var app = getApp();
 var util = require('../../utils/util.js');
 var http_util = require('../../utils/http_util.js');
 // question.js

@@ -1,8 +1,8 @@
 <!--pages/group/detail.wxml-->
 
 <import src="../template/list.wxml" />
-<button size="default" style="width: 100rpx; height: 100rpx; background-color: #fff;" class="home-btn" bindtap="bindTapIndex"></button>
-<button size="default" open-type="share" style="width: 100rpx; height: 100rpx; background-color: #fff;" class="share-btn"></button>
+<button size="default" style="width: 100rpx; height: 100rpx; background-color: #fff;" class="home-btn" bindtap="bindTapIndex" plain="true"></button>
+<button size="default" open-type="share" style="width: 100rpx; height: 100rpx; background-color: #fff;" class="share-btn" plain="true"></button>
 <view class="container">
   <view class="container-body space-content">
     <view class="space-top">

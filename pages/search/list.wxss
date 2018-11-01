@@ -1,1 +1,5 @@
 /* list.wxss */
+
+.scoll-h {
+  height: 100%;
+}

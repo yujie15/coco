@@ -3,5 +3,9 @@
     <view class="weui-cell__bd">{{item.categoryName}}</view>
   </view>
 </block>
-
-<view wx:if="{{cityList.length==0}}" class="loading complete">暂无数据</view>
+<view>
+  <loading hidden="{{loadingHidden}}">
+    加载中...
+  </loading>
+</view>
+<view wx:if="{{loadingHidden&&cityList.length==0}}" class="loading complete">暂无数据</view>

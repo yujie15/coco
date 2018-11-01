@@ -28,7 +28,7 @@ var loadGroupData = function (that) {
 
     var url1 = app.apiurl;
     var reqData = {
-      "method": "accounGroupLiveList",
+      "method": "accounGroupAdminList",
       "parameters": {
         "account": app.globalData.account,
         "password": app.globalData.password,
@@ -143,8 +143,6 @@ Page({
    */
   onLoad: function (options) {
 
-    console.log("onLoad");
-    console.log("pageNum" + pageNum);
     
     var that = this;
 
@@ -152,7 +150,6 @@ Page({
       success: function (res) {
         that.setData({
           scrollHeight: res.windowHeight - res.windowWidth / 750 * 382
-
           //scrollHeight: res.windowHeight
         });
       }
@@ -208,24 +205,20 @@ Page({
   
   },
   onPullDownRefresh() {
-    console.log("onPullDownRefresh");
     this.topRefresh();
   },
 
   onReachBottom() {
-    console.log("onReachBottom");
     this.pullUpLoad();
   },
 
 
   // 下拉刷新数据  
   topRefresh: function () {
-    console.log("topRefresh");
     this.setData({
       scrollTop: 0,
       hasMore: true,
       groupList: [],
-
     });
     pageNum = 1;
     loadGroupData(this);
@@ -233,7 +226,6 @@ Page({
 
   // 上拉加载数据 上拉动态效果不明显有待改善  
   pullUpLoad: function () {
-    console.log("pullUpLoad");
     loadGroupData(this);
   },
 
@@ -243,6 +235,5 @@ Page({
       scrollTop: event.detail.scrollTop
     });
   },
-
 
 })

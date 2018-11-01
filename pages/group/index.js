@@ -84,8 +84,9 @@ var loadGroupData = function(that) {
         "password": app.globalData.password,
         "start": (group_pageNum - 1) * pageSize,
         "count": pageSize,
-        "order": "user",
-        "cityid": that.data.schoolid,
+        "order": "",
+        "isBest": "1",
+        //"cityid": that.data.schoolid,
         "photo": that.data.havaPhoto,
       }
     }
@@ -205,10 +206,12 @@ var loadEventData = function(that) {
         "start": (event_pageNum - 1) * pageSize,
         "count": pageSize,
         "type": "1051",
-        "cityid": that.data.schoolid,
+        //"cityid": that.data.schoolid,
         "keyword": that.data.keyword,
         "tags": that.data.tags,
         "photo": that.data.havaPhoto,
+        "isBest": "1",
+        "order": "postid",
 
       }
     }
@@ -326,12 +329,13 @@ Page({
 
       {
         "current": 1,
-        "name": "推荐社群",
+        "name": "推荐群组",
         "value": ""
       },
 
 
     ],
+    cover: "https://sports.ttyclub.com/images/coco/sanhome1.jpg",
 
     title_city: "地区",
     title_school: "学校",
@@ -586,6 +590,10 @@ Page({
    */
   onLoad: function(options) {
     let that = this;
+    console.log("scene:" + options.scene);
+    console.log("markid:" + options.markid);
+
+
 
     // 高度自适应
     wx.getSystemInfo({
@@ -622,6 +630,8 @@ Page({
     loadGroupData(that);
     loadEventData(that);
     //loadCityData(that);
+
+
   },
 
   /**
@@ -749,7 +759,7 @@ Page({
     let formId = event.detail.formId;
     app.collectFormIds(formId); //处理保存推送码      
     wx.navigateTo({
-      url: '../search/search?keyword=' + that.data.keyword
+      url: '../search/search?isSelect=0&keyword=' + that.data.keyword
     })
   },
   tapClearSchool: function(event) {
@@ -762,5 +772,10 @@ Page({
     app.reload = "1";
     that.onShow();
   },
-
+  tapComments: function (e) {
+    var that = this;
+    wx.navigateTo({
+      url: '/pages/coco/comment?keyword=三行家书'
+    })
+  },
 })

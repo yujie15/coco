@@ -3,7 +3,7 @@
 <import src="../template/list.wxml" />
 <view class="container">
   <view class="weui-panel weui-panel_access">
-    <scroll-view scroll-y="true" scroll-top="{{scrollTop}}" style="height:{{scrollHeight}}px;" bindscroll="scroll" bindscrolltolower="pullUpLoad">
+    <scroll-view scroll-y="true" class="scoll-h" bindscrolltolower="pullUpLoad" >
       <template is="postList" data="{{postList: postList, hasMore: hasMore}}"></template>
     </scroll-view>
   </view>

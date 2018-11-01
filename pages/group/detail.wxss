@@ -51,6 +51,6 @@
 }
 
 .space-title {
-  font-size: 44rpx;
+  font-size: 40rpx;
   line-height: 2;
 }

@@ -58,12 +58,7 @@ var loadPageData = function(that) {
           data1.cover = "https://sports.ttyclub.com/images/logo/group/default.png";
         }
 
-
-
         var photos = data1.photos;
-
-        console.log("photos：" + photos);
-
 
         var smallphotos = [];
         var bigphotos = [];
@@ -570,7 +565,15 @@ Page({
               content: message,
               showCancel: false,
               success: function(res) {
-
+                if (result == "10100") {
+                  //调用应用实例的方法获取全局数据
+                  app.getUserInfo(function (userInfo) {
+                    //更新数据，页面自动渲染
+                    that.setData({
+                      userInfo: userInfo
+                    })
+                  })
+                }
               }
             });
             return;
@@ -675,7 +678,7 @@ Page({
               app.reload = "2";
 
               wx.switchTab({
-                url: '/pages/group/index',
+                url: '/pages/coco/group',
                 success: function(e) {}
               })
               return;

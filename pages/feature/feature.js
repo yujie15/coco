@@ -271,7 +271,6 @@ Page({
   //文本域获得焦点事件处理
   textAreaFocus: function () {
     this.setData({
-
     })
   },
   //文本域失去焦点时 事件处理

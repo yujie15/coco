@@ -8,7 +8,7 @@
           </view>
           <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
             <view style="color:#000000;font-size: 28rpx;font-weight:bold">{{item.name}}</view>
-            <view style="color:#888888;font-size: 24rpx;">{{item.description}}</view>
+            <view style="color:#888888;font-size: 24rpx;" class="linetext">{{item.description}}</view>
             <view style="color:#f7982a;font-size: 24rpx;display:flex">成员：{{item.countUser}}人
             </view>
           </view>
@@ -16,6 +16,6 @@
       </block>
       <view hidden="{{hasMore}}" class="loading complete">已加载全部</view>
     </view>
-    <view wx:elif="{{!hasMore&&groupList.length==0}}" class="loading complete">暂无社群</view>
+    <view wx:elif="{{!hasMore&&groupList.length==0}}" class="loading complete">暂无群组</view>
   </view>
 </template>

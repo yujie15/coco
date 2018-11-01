@@ -8,12 +8,6 @@ var pageNum = 1;//翻页页数
 var pageSize = 10;//每页条数
 
 
-//index.js
-//获取应用实例
-var app = getApp()
-var json_util = require('../../utils/json_util.js');
-var http_util = require('../../utils/http_util.js');
-
 /**
  * 加载栏目分类
  */
@@ -394,7 +388,6 @@ Page({
       success: function (res) {
         that.setData({
           //scrollHeight: res.windowHeight - res.windowWidth / 750 * 382
-
           scrollHeight: res.windowHeight
         });
       }

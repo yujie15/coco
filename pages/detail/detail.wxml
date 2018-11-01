@@ -1,3 +1,7 @@
+<import src="../template/comment.wxml" />
+<button size="default" style="width: 100rpx; height: 100rpx; background-color: #fff;" class="home-btn" bindtap="bindTapIndex" plain="true"></button>
+<button size="default" style="width: 100rpx; height: 100rpx; background-color: #fff;" class="edit-btn" wx:if="{{userpost.account==account}}" bindtap="tapEventManage" plain="true"></button>
+
 <view class="container">
   <view class="container-body space-content">
     <view class="space-top">
@@ -63,15 +67,15 @@
             <text class="text-right" bindtap="callContact" data-phonenumber="{{userpost.phone}}">{{userpost.phone}}</text>
           </view>
           <view class="space-item" wx:if="{{userpost.groupName!=''}}">
-            <text class="text-left">社群：</text>
-            <text class="text-right">{{userpost.groupName}}</text>
+            <text class="text-left">群组：</text>
+            <text class="text-right"  bindtap="bindGroupHome">{{userpost.groupName}}</text>
           </view>
           <view class="space-item" wx:if="{{userpost.brand!=''}}">
             <text class="text-left">所在地：</text>
             <text class="text-right">{{userpost.brand}}</text>
           </view>
 
-          <view class="space-item" style="{{userpost.position==''?'display:none':''}}">
+          <view class="space-item" style="{{userpost.position==''?'display:none':''}}" wx:if="{{userpost.position!='火星'}}">
             <text class="text-left">场地：</text>
             <text class="text-right" data-address="{{userpost.position}}" data-latitude="{{userpost.latitude}}" data-longitude="{{userpost.longitude}}">{{userpost.position}}</text>
           </view>
@@ -126,36 +130,16 @@
 
 
     <view class="space-block" wx:if="{{userpost.oldLevel==''}}">
-      <view class="space-block-title">留言</view>
+      <view class="space-block-title">留言
+        <view style="float:right;display: flex;justify-content:center;align-content:center;height: 50rpx;" bindtap="bindCommentOrder">
+          <image src="../../images/order.png" style="width: 30rpx; height: 30rpx;margin:10rpx;" /><view style=' font-size: 30rpx;'>{{commentOrderTitle}}</view>
+        </view>
+      </view>
       <view class="space-block-content">
         <view class="weui-cells" wx:if="{{commentList.length>0}}">
           <block wx:for="{{commentList}}" wx:key="item.id">
-            <view class="weui-cell" style="width:90%">
-              <view style="display:flex;flex-wrap: nowrap;padding:5rpx 10rpx;width:100%">
-                <view style="padding:5rpx 10rpx;">
-                  <image src="{{item.avatar}}" mode="aspectFill" class="weui-media-box__thumb  userinfo-avatar-small" bindtap="bindTapHome" data-url="{{item.avatar}}" data-account="{{item.account}}"></image>
-                </view>
-                <view style="display:inline-flex;flex-direction:column;width:100%;padding:5rpx 10rpx;">
-                  <view style="display:inline-flex;flex-direction:row;width:100%;align-items:center">
-                    <view style="width:60%;font-size:30rpx;">{{item.usernickname}}</view>
-                    <view class="space-time" style="width:40%">{{item.updatetimeShow}}</view>
-                  </view>
-                  <view class="apply-text">
-                    <text>{{item.content}}</text>
-                  </view>
-                  <view style="display:inline-flex;flex-direction:row;width:100%;align-items:center">
-                    <view style="width:60%;font-size:30rpx;">
-                      <text wx:if="{{userpost.account==account||item.account==account}}" data-markid="{{item.markId}}" bindtap="delComment">删除</text>
-                    </view>
-                    <view class="likeinfo" style="width:40%">
-                      <image wx:if="{{item.isLike=='1'}}" class="likebtn" src="../../images/zan.png" data-markid="{{item.markId}}"></image>
-                      <image wx:else src="../../images/unzan.png" class="likebtn" bindtap="tapLike" data-markid="{{item.markId}}"></image>
-                      <text class="likeinfo_count">{{item.likes}}</text>
-                    </view>
-                  </view>
-                </view>
-              </view>
-              <view class="weui-cell__ft"></view>
+            <view class="weui-cell" style="padding:0">
+              <template is="commentmsg" data="{{answermsg: item,isAuthor: isAuthor,account: account}}"></template>
             </view>
           </block>
           <view class="loading complete" hidden="{{hasMore}}">已加载全部</view>
@@ -164,8 +148,7 @@
       </view>
     </view>
   </view>
-  <button size="default" style="width: 100rpx; height: 100rpx; background-color: #fff;" class="edit-btn"  wx:if="{{userpost.account==account}}" bindtap="tapEventManage"></button>
-  <button size="default" style="width: 100rpx; height: 100rpx; background-color: #fff;" class="home-btn" bindtap="bindTapIndex"></button>
+
   <modal hidden="{{modalHidden}}" title="请输入口令" confirm-text="报名" cancel-text="放弃" bindcancel="modalCancel" bindconfirm="modalConfirm" no-cancel="{{nocancel}}">
     <input bindinput="bindInputSize" placeholder="口令" value="{{size}}" />
   </modal>
@@ -184,12 +167,16 @@
 
 
   <form report-submit bindsubmit="bindSubmitActivities">
-    <view class="container-footer" style="width:100%" wx:if="{{userpost.oldLevel==''}}">              
-        <view class="weui-flex">
-            <view class="weui-flex__item"><text class="comment-btn" bindtap="bindTapComment">留言</text></view>
-            <view class="weui-flex__item"><button formType="submit" class="apply-btn" hover-class="btn-blue-hover" disabled="{{disabled}}">{{btnName}}</button></view>
+    <view class="container-footer" style="width:100%" wx:if="{{userpost.oldLevel==''}}">
+      <view class="weui-flex">
+        <view class="weui-flex__item">
+          <text class="comment-btn" bindtap="bindTapComment">留言</text>
         </view>
-      
+        <view class="weui-flex__item">
+          <button formType="submit" class="apply-btn" hover-class="btn-blue-hover" disabled="{{disabled}}">{{btnName}}</button>
+        </view>
+      </view>
+
     </view>
   </form>
 </view>
@@ -207,5 +194,14 @@
 </modal>
 
 <view animation="{{animationData}}" class="drawer_box" wx:if="{{showModalStatus&&userpost.weburl!=''}}">
-  <image src="{{userpost.weburl}}" mode="aspectFit"  data-src="{{userpost.weburl}}" style="width:100%;margin:10px;"  bindtap="previewImage"></image>
+  <image src="{{userpost.weburl}}" mode="aspectFit" data-src="{{userpost.weburl}}" style="width:100%;margin:10px;" bindtap="previewImage"></image>
+</view>
+
+<!--评论盒子-->
+<view class="cf-bg" catchtap="cemojiCfBg" style="display:{{commentShow ? 'block' : 'none'}}"></view>
+<view class="comment-fixed" style="display:{{commentShow ? 'block' : 'none'}}">
+  <view class="cf-box">
+    <textarea class="cf-content" bindfocus="textAreaFocus" maxlength="200" bindblur="textAreaBlur" bindconfirm="send" value="{{comment}}" placeholder="我要评论" fixed="true" />
+    <text class="cf-send touch-active" bindtap="send">发送</text>
+  </view>
 </view>

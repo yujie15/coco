@@ -3,5 +3,9 @@
     <view class="weui-cell__bd">{{item.name}}</view>
   </view>
 </block>
-
-<view wx:if="{{groupList.length==0}}" class="loading complete">暂无数据</view>
+<view>
+  <loading hidden="{{loadingHidden}}">
+    加载中...
+  </loading>
+</view>
+<view wx:if="{{loadingHidden&&groupList.length==0}}" class="loading complete">暂无数据</view>

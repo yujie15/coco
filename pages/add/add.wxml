@@ -93,7 +93,7 @@
     <block wx:if="{{!groupHidden}}">
       <view class="weui-cell weui-cell_input">
         <view class="weui-cell__hd">
-          <view class="weui-label">添加到社群</view>
+          <view class="weui-label">添加到群组</view>
         </view>
         <view class="weui-cell__bd">
           <input class="weui-input" placeholder="请选择" bindchange="bindGroupChange" value="{{group}}" bindtap="tapGroup" />
@@ -115,7 +115,7 @@
         <view class="weui-label">场地</view>
       </view>
       <view class="weui-cell__bd">
-        <input class="weui-input" placeholder="请填写" bindchange="bindAddressChange" value="{{address}}" />
+        <input class="weui-input" placeholder="选填" bindchange="bindAddressChange" value="{{address}}" />
       </view>
     </view>
     <view class="weui-cell">
@@ -133,6 +133,7 @@
             <image src="{{item}}" mode="aspectFill"></image>
           </view>
         </view>
+        <view style="font-size: 14px;">最后一张图片默认为用户报名后提醒图，之后也可以修改或取消哦～</view>
       </view>
     </view>
     <view class="weui-cell" bindtap="tapMore">
@@ -202,18 +203,22 @@
       <view class="con">
         <button class="{{switchxb ? 'con-button':''}}" data-name="xb" bindtap="clickButton">性别</button>
       </view>
+      <!--
       <view class="con">
         <button class="{{switchsf ? 'con-button':''}}" data-name="sf" bindtap="clickButton">身份证号</button>
       </view>
+      -->
       <view class="con">
         <button class="{{switchxx ? 'con-button':''}}" data-name="xx" bindtap="clickButton">学校</button>
       </view>
       <view class="con">
         <button class="{{switchxy ? 'con-button':''}}" data-name="xy" bindtap="clickButton">学院</button>
       </view>
+      <!--
       <view class="con">
         <button class="{{switchnj ? 'con-button':''}}" data-name="nj" bindtap="clickButton">年级</button>
       </view>
+      -->
       <view class="con">
         <button class="{{switchwx ? 'con-button':''}}" data-name="wx" bindtap="clickButton">微信号</button>
       </view>
@@ -223,6 +228,7 @@
       <view class="con">
         <button class="{{switchdh ? 'con-button':''}}" data-name="dh" bindtap="clickButton">联系电话</button>
       </view>
+      <!--
       <view class="con">
         <button class="{{switchrs? 'con-button':''}}" data-name="rs" bindtap="clickButton">报名人数</button>
       </view>
@@ -232,6 +238,7 @@
       <view class="con">
         <button class="{{switchbz ? 'con-button':''}}" data-name="bz" bindtap="clickButton">备注</button>
       </view>
+      -->
       <view class="con">
         <button class="{{switchlist ? 'con-button':''}}" data-name="list" bindtap="clickButton">自定义</button>
       </view>

@@ -3,12 +3,14 @@ if (!Array.prototype.findIndex) {
   require('./utils/array-findIndex')
 }
 
+
+
 App({
   apiurl: 'https://sports.ttyclub.com/client_android.action',
   uploadurl: 'https://sports.ttyclub.com/servlet/JJUploadImageServlet',
   ak: 'NQMDt0Qph0MQwL03hpdGlyzUzb3LIN0k',
   reload: 0,
-  name: "可可社群活动",
+  name: "群组活动小助手",
   shareTicket: "",
 
   initData: {
@@ -70,7 +72,7 @@ App({
             },
             fail: function() {
               wx.showModal({
-                title: '警告',
+                title: '授权提示',
                 content: '您点击了拒绝授权,将无法正常显示个人信息,点击确定重新获取授权。',
                 success: function(res) {
                   if (res.confirm) {
@@ -122,6 +124,8 @@ App({
     }
   },
   checkLogin: function() {
+
+
     console.log("checkLogin " + this.globalData.account);
     if (this.globalData.userInfo == null || this.globalData.account == "" || this.globalData.account == "guest") {
       let globalData = wx.getStorageSync('globalData');
@@ -134,10 +138,14 @@ App({
         content: "请先登录",
         showCancel: false,
         success: function(res) {
-
+          wx.navigateBack({
+            delta: 1
+          })
+          /*
           wx.navigateTo({
             url: '/pages/user/my',
           })
+          */
           // wx.switchTab({
           //   url: '/pages/user/my',
           //   success: function(e) {}
@@ -207,7 +215,7 @@ App({
 
     let that = this
 
-    console.log("that.globalData.code：" + that.globalData.code);
+    //console.log("that.globalData.code：" + that.globalData.code);
     var reqData = {
       "method": "getWXDecryptData",
       "parameters": {

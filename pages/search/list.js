@@ -1,8 +1,6 @@
 // list.js
 
 var app = getApp()
-var network_util = require('../../utils/network_util.js');
-var json_util = require('../../utils/json_util.js');
 var http_util = require('../../utils/http_util.js');
 
 var pageNum = 1;//翻页页数
@@ -187,6 +185,7 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
+    this.topRefresh();
 
   },
 
@@ -194,11 +193,12 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-
+    this.pullUpLoad();
   },
 
-
-
+  onToastChanged: function () {
+    this.setData({ toastHidden: !this.data.toastHidden });
+  },
 
   // 下拉刷新数据  
   topRefresh: function () {

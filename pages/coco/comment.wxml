@@ -1,0 +1,31 @@
+<import src="../template/comment.wxml" />
+
+<view class="container">
+  <view class="container-body space-content">
+    <view class="space-block">
+      <scroll-view scroll-y="true" class="scoll-h" bindscrolltolower="pullUpLoad">
+        <view wx:if="{{cover!=''}}" style='width:100%;text-align:center;'>
+          <image src="{{ cover }}" mode="widthFix" style="width:100%;"></image>
+        </view>
+        <view class="space-block-title"></view>
+        <view class="space-block-content">
+          <view class="weui-cells" wx:if="{{commentList.length>0}}">
+
+            <block wx:for="{{commentList}}" wx:key="item.id">
+              <view class="weui-cell" style="padding:0">
+                <template is="commentmsg" data="{{answermsg: item,isAuthor: isAuthor,account: account}}"></template>
+              </view>
+            </block>
+            <view class="loading complete" hidden="{{hasMore}}">已加载全部</view>
+          </view>
+          <view wx:if="{{loadingHidden&&commentList.length==0}}" class="loading complete">暂无留言</view>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+</view>
+<view>
+  <loading hidden="{{loadingHidden}}">
+    加载中...
+  </loading>
+</view>

@@ -32,7 +32,6 @@ var loadPageData = function (that) {
       "password": app.globalData.password,
       "type": "1051",
       "dealType": "0",
-      "order": "postid",
       "start": (pageNum - 1) * pageSize,
       "count": pageSize,
       "groupId": that.data.groupid,

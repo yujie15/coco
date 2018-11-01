@@ -103,7 +103,7 @@ var loadPageData = function (that) {
 var loadPostData = function (that) {
   var url1 = app.apiurl;
   var reqData = {
-    "method": "getPost",
+    "method": "getPostDetail",
     "parameters": {
       "account": app.globalData.account,
       "password": app.globalData.password,

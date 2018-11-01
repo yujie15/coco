@@ -40,7 +40,7 @@
       </view>
 
       <view class="weui-form-preview__item" wx:if="{{group!=''}}">
-        <view class="weui-form-preview__label">社群</view>
+        <view class="weui-form-preview__label">群组</view>
         <view class="weui-form-preview__value">{{group}}</view>
       </view>
 

@@ -4,12 +4,19 @@ var http_util = require('../../utils/http_util.js');
 var app = getApp();
 
 var loadCityData = function (that) {
+
+  that.setData({
+    loadingHidden: false,
+  });
+
+
   var url1 = app.apiurl;
   var reqData = {
     "method": "getCategoryList",
     "parameters": {
       "type": "2",
       "categoryID": that.data.cityid,
+      "items": 0,
     }
   }
   var test = { data: reqData, url: url1 };
@@ -18,6 +25,10 @@ var loadCityData = function (that) {
   http_util.httpPost(test).then(
 
     function (res) {
+
+      that.setData({
+        loadingHidden: true,
+      });
       var result = res.data.result;
       var message = res.data.message;
       var list = res.data.list;
@@ -35,6 +46,10 @@ var loadCityData = function (that) {
     },
 
     function (res) {
+
+      that.setData({
+        loadingHidden: true,
+      });
       wx.showModal({
         content: '网络连接失败',
         showCancel: false,
@@ -58,6 +73,8 @@ Page({
     cityname: 0,
     returnPage: "",
     cityList: [],
+    loadingHidden: true,
+
   },
 
   /**

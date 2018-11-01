@@ -1,19 +1,20 @@
 <template name="head">
-  <view style="display: flex;flex-direction:row;flex-wrap:nowrap;">
-    <view style="margin-left: 20rpx;width:120rpx"  wx:if="{{userInfo!=null}}">
-      <image src="{{userInfo.avatarUrl}}" style="width: 100rpx; height: 100rpx; display: block" class="userinfo-avatar" />
-    </view>
-    <view style="margin-left: 20rpx;width:100%">
-      <view  wx:if="{{userInfo!=null}}">{{userInfo.nickName}}
-        <view wx:if="{{userInfo.gender==1}}">
-          <image src="../../images/man.png" style="width: 40rpx; height: 40rpx; display: block" /> </view>
-        <view wx:else>
-          <image src="../../images/women.png" style="width: 40rpx; height: 40rpx; display: block" /> </view>
+  <view style="  height: 150rpx; width: 100%;position: fixed; top: 0rpx; left: 0rpx; z-index: 99; ">
+    <view style="margin-top: 20rpx;display: flex;flex-direction:row;flex-wrap:nowrap;">
+      <view style="margin-left: 20rpx;width:120rpx" wx:if="{{userInfo!=null}}">
+        <image src="{{userInfo.avatarUrl}}" style="width: 100rpx; height: 100rpx; display: block" class="userinfo-avatar" />
       </view>
-    </view>
-
-    <view style="margin-right: 20rpx;width:100rpx">
-      <image src="/images/my.png" style="width: 80rpx; height: 80rpx; display: block " bindtap="tapHome" />
+      <view style="margin-left: 20rpx;width:100%">
+        <view wx:if="{{userInfo!=null}}">{{userInfo.nickName}}
+          <view wx:if="{{userInfo.gender==1}}">
+            <image src="../../images/man.png" style="width: 40rpx; height: 40rpx; display: block" /> </view>
+          <view wx:else>
+            <image src="../../images/women.png" style="width: 40rpx; height: 40rpx; display: block" /> </view>
+        </view>
+      </view>
+      <view style="margin-right: 20rpx;width:100rpx">
+        <image src="/images/index_icon_HL.png" style="width: 80rpx; height: 80rpx; display: block " bindtap="tapCoco" />
+      </view>
     </view>
   </view>
 </template>

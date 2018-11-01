@@ -129,7 +129,7 @@ Page({
         wx.setStorageSync('show_groupid', res.data.id);
 
         wx.switchTab({
-          url: '../group/index',
+          url: '../coco/group',
           success: function(e) {}
         })
 

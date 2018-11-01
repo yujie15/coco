@@ -1,5 +1,7 @@
 {
   "pages": [
+    "pages/coco/event",
+    "pages/coco/group",
     "pages/group/index",
     "pages/group/add",
     "pages/index/index",
@@ -31,16 +33,16 @@
     "pages/search/group",
     "pages/template/userlist",
     "pages/group/bl",
-    "pages/coco/group",
-    "pages/coco/event",
     "pages/template/head",
     "pages/test/11",
-    "pages/coco/upload"
+    "pages/coco/upload",
+    "pages/coco/comment",
+    "pages/detail/comment"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "可可社群活动",
+    "navigationBarTitleText": "群组活动小助手",
     "navigationBarTextStyle": "black",
     "enablePullDownRefresh": false
   },
@@ -57,15 +59,15 @@
       },
       {
         "pagePath": "pages/coco/group",
-        "text": "社群",
+        "text": "群组",
         "iconPath": "images/group_icon.png",
         "selectedIconPath": "images/group_icon_HL.png"
       },
       {
-        "pagePath": "pages/group/index",
-        "text": "发现",
-        "iconPath": "images/index_icon.png",
-        "selectedIconPath": "images/index_icon_HL.png"
+        "pagePath": "pages/user/my",
+        "text": "我的",
+        "iconPath": "images/home_icon.png",
+        "selectedIconPath": "images/home_icon_HL.png"
       }
     ]
   }

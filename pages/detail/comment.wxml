@@ -1,0 +1,25 @@
+<!--pages/detail/comment.wxml-->
+<import src="../template/comment.wxml" />
+
+<view class="container">
+  <view class="container-body space-content">
+    <view class="space-block">
+      <view class="space-block-content">
+        <view class="weui-cells">
+          <view class="weui-cell" style="padding:0">
+            <template is="commentmsg" data="{{answermsg: answermsg,isAuthor: isAuthor,account: account,isMoreComment:true}}"></template>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+
+<!--评论盒子-->
+<view class="cf-bg" catchtap="cemojiCfBg" style="display:{{commentShow ? 'block' : 'none'}}"></view>
+<view class="comment-fixed" style="display:{{commentShow ? 'block' : 'none'}}">
+  <view class="cf-box">
+    <textarea class="cf-content" bindfocus="textAreaFocus" maxlength="200" bindblur="textAreaBlur" bindconfirm="send" value="{{comment}}" placeholder="我要评论" fixed="true" />
+    <text class="cf-send touch-active" bindtap="send">发送</text>
+  </view>
+</view>

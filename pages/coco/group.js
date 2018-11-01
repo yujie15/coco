@@ -7,9 +7,7 @@ var json_util = require('../../utils/json_util.js');
 var http_util = require('../../utils/http_util.js');
 
 var group_pageNum = 1; //翻页页数
-
 var pageSize = 10; //每页条数
-
 
 /**
  * 加载圈子内容
@@ -134,11 +132,13 @@ Page({
    * 页面的初始数据
    */
   data: {
+    account: "",    
     groupList: [],
     group_hasMore: true,
     loadingHidden: true,
     toastHidden: true,
     userInfo: null,
+    loading: false,
 
   },
 
@@ -162,7 +162,6 @@ Page({
   // 上拉加载数据 上拉动态效果不明显有待改善  
   pullUpLoad: function() {
     loadGroupData(this);
-
   },
 
   // 定位数据  
@@ -177,10 +176,7 @@ Page({
   onLoad: function(options) {
     let that = this;
 
-
-
-    console.log("scene:" + options.scene);
-    if (options.scene) {
+    if (options&&options.scene) {
       var scene = decodeURIComponent(options.scene);
       console.log("go scene");
       wx.navigateTo({
@@ -189,8 +185,6 @@ Page({
     }
 
     
-    app.checkLogin();
-
     // 高度自适应
     wx.getSystemInfo({
       success: function(res) {
@@ -211,9 +205,14 @@ Page({
       group_hasMore: true,
 
     });
-    group_pageNum = 1;
 
-    loadGroupData(that);
+
+
+    if (app.globalData.userInfo != null) {
+      group_pageNum = 1;
+      loadGroupData(that);
+    }
+
 
   },
 
@@ -230,11 +229,22 @@ Page({
   onShow: function() {
     let that = this;
     //注意顺序，先设置标签
-    app.checkLogin();
 
     that.setData({
-      userInfo: app.globalData.userInfo,
-    });
+      account: app.globalData.account,
+      userInfo: app.globalData.userInfo
+    })
+
+
+    if (app.globalData.userInfo == null) {
+      that.setData({
+        types: [],
+        groupList: [],
+        scrollTop: 0,
+        group_hasMore: true,
+      });
+    }
+
 
     if (app.reload == "1") {
       app.reload = "";
@@ -245,7 +255,7 @@ Page({
       app.reload = "";
       setTimeout(function() {
         that.topRefresh();
-      }, 5000);
+      },3000);
     }
     //
     var show_groupid = (wx.getStorageSync('show_groupid') || 0);
@@ -302,5 +312,33 @@ Page({
     wx.navigateTo({
       url: '/pages/user/my'
     })
+  },
+  tapCoco: function (e) {
+    var that = this;
+    wx.navigateTo({
+      url: '/pages/group/index'
+    })
+  },
+  
+  tapLogin: function () {
+
+    var that = this
+
+    that.setData({
+      loading: true
+    });
+
+    //调用应用实例的方法获取全局数据
+    app.getUserInfo(function (userInfo) {
+      //更新数据，页面自动渲染
+      that.setData({
+        userInfo: userInfo,
+        loading: false,
+      })
+
+    });
+
+
+
   },
 })

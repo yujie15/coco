@@ -32,8 +32,8 @@
       <form bindsubmit="tapHotSchool" report-submit="true">
         <view class="weui-cells__title">热门学校</view>
         <view style="margin:10px 0;display:flex;flex-direction:row;flex-wrap:wrap;justify-conent:space-around">
-          <block wx:for="{{schoolList}}" wx:key="id">
-            <view wx:if="{{item.count>0}}" style="margin:10px 10px;">
+          <block wx:for="{{hotschoolList}}" wx:key="id">
+            <view style="margin:10px 10px;">
               <button class="weui-btn" data-name="{{item.name}}" data-id="{{item.id}}" form-type="submit">{{item.name}}({{item.count}})</button>
             </view>
           </block>
@@ -56,4 +56,10 @@
     </block>
 
   </view>
+</view>
+
+<view>
+  <loading hidden="{{loadingHidden}}">
+    加载中...
+  </loading>
 </view>

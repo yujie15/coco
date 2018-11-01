@@ -1,8 +1,6 @@
 var app = getApp()
 var util = require('../../utils/util.js');
 var network_util = require('../../utils/network_util.js');
-
-
 // 加载数据  
 var loadPageData = function(that) {
 
@@ -10,7 +8,8 @@ var loadPageData = function(that) {
   var reqData = {
     "method": "getCategoryList",
     "parameters": {
-      "type": "1051"
+      "type": "1051",
+      "items": 0,
     }
   }
 
@@ -302,7 +301,7 @@ Page({
       {
         "name": "公开可见",
         "value": "",
-        "note": "(在发现可见)"
+        "note": "（优质活动会在发现推荐）"
       },
 
       {
@@ -541,6 +540,7 @@ Page({
       });
       return;
     };
+    /*
     if (that.data.address == '') {
       wx.showModal({
         content: "请填写场地",
@@ -549,6 +549,7 @@ Page({
       });
       return;
     };
+    */
     /*
     if (!that.data.schoolHidden && that.data.school == '') {
       wx.showModal({
@@ -566,7 +567,10 @@ Page({
     if (that.data.uploadimgs.length > 0) {
       util.upload(app.uploadurl, that, that.submit);
     } else {
-      that.submit();
+
+      setTimeout(function () {
+        that.submit();
+      }, 100)
     }
   },
 

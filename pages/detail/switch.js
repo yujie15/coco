@@ -152,23 +152,17 @@ Page({
       switchtcval: e.detail.value
     })
   },
-  dealFormIds: function(formId) {
-    let formIds = app.globalData.gloabalFomIds; //获取全局数据中的推送码gloabalFomIds数组
-    if (!formIds) formIds = [];
-    let data = {
-      formId: formId,
-      expire: parseInt(new Date().getTime() / 1000) + 604800 //计算7天后的过期时间时间戳
-    }
-    formIds.push(data); //将data添加到数组的末尾
-    app.globalData.gloabalFomIds = formIds; //保存推送码并赋值给全局变量
-  },
+
   bindSubmitActivities: function(e) {
+
+    setTimeout(function () {
+    }, 100)
 
     var that = this;
     var content = "";
     var json = {}
     let formId = e.detail.formId;
-    that.dealFormIds(formId); //处理保存推送码
+    app.collectFormIds(formId); //处理保存推送码
 
     if (that.data.switchxm) {
       if (that.data.switchxmval == '') {
@@ -321,8 +315,6 @@ Page({
 
     }
 
-    console.log("that.data.switchlist");
-    console.log(that.data.switchlist);
     if (that.data.switchlist) {
       for (var i = 0; i < that.data.lists.length; i++) {
         if (!that.data.lists[i].value||that.data.lists[i].value == "") {
@@ -357,7 +349,12 @@ Page({
         if (!res.confirm) {
           return;
         }
-        that.createCommentFeel();
+
+        setTimeout(function () {
+          that.createCommentFeel();
+        }, 100)
+
+       
       }
     });
   },
@@ -459,12 +456,10 @@ Page({
    */
   onShow: function() {
 
-    app.checkLogin();
+    //app.checkLogin();
 
     var switchobj = this.data.switchobj;
 
-    console.log("switchobj");
-    console.log(switchobj)
     if (switchobj.indexOf("switchxm") > -1) {
       this.setData({
         switchxm: true,

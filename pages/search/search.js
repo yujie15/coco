@@ -6,11 +6,18 @@ var app = getApp();
 
 
 var loadCityData = function (that) {
+
+  that.setData({
+    loadingHidden: false,
+  });
+
+
   var url1 = app.apiurl;
   var reqData = {
     "method": "getCategoryList",
     "parameters": {
-      "type": "2"
+      "type": "2",
+      "items": "0"
     }
   }
   var test = { data: reqData, url: url1 };
@@ -19,6 +26,11 @@ var loadCityData = function (that) {
   http_util.httpPost(test).then(
 
     function (res) {
+
+      that.setData({
+        loadingHidden: true,
+      });
+
       var result = res.data.result;
       var message = res.data.message;
       var list = res.data.list;
@@ -28,6 +40,10 @@ var loadCityData = function (that) {
     },
 
     function (res) {
+
+      that.setData({
+        loadingHidden: true,
+      });
       wx.showModal({
         content: '网络连接失败',
         showCancel: false,
@@ -42,6 +58,7 @@ var loadCityData = function (that) {
 
 
 var loadSchoolData = function (that) {
+
   var url1 = app.apiurl;
   var reqData = {
     "method": "getSchoolList",
@@ -50,11 +67,10 @@ var loadSchoolData = function (that) {
     }
   }
   var test = { data: reqData, url: url1 };
-
-
   http_util.httpPost(test).then(
 
     function (res) {
+
       var result = res.data.result;
       var message = res.data.message;
       var list = res.data.list;
@@ -64,6 +80,7 @@ var loadSchoolData = function (that) {
     },
 
     function (res) {
+
       wx.showModal({
         content: '网络连接失败',
         showCancel: false,
@@ -76,6 +93,57 @@ var loadSchoolData = function (that) {
 
 }
 
+
+
+
+var loadHotSchoolData = function (that) {
+
+  that.setData({
+    loadingHidden: false,
+  });
+
+  var url1 = app.apiurl;
+  var reqData = {
+    "method": "getSchoolList",
+    "parameters": {
+      "type": "2",
+      "order": "hot",
+    }
+  }
+  var test = { data: reqData, url: url1 };
+
+
+  http_util.httpPost(test).then(
+
+    function (res) {
+      that.setData({
+        loadingHidden: true,
+      });
+      var result = res.data.result;
+      var message = res.data.message;
+      var list = res.data.list;
+      that.setData({
+        hotschoolList: that.data.hotschoolList.concat(list),
+      });
+    },
+
+    function (res) {
+      that.setData({
+        loadingHidden: true,
+      });
+      wx.showModal({
+        content: '网络连接失败',
+        showCancel: false,
+        success: function (res) {
+        }
+      });
+    }
+
+  );
+
+}
+
+
 var loadTagData = function (that) {
   var url1 = app.apiurl;
   var reqData = {
@@ -87,8 +155,6 @@ var loadTagData = function (that) {
     }
   }
   var test = { data: reqData, url: url1 };
-
-
   http_util.httpPost(test).then(
 
     function (res) {
@@ -118,14 +184,17 @@ Page({
   data: {
     inputShowed: false,
     inputVal: "",
-    isSelect: "0",
+    isSelect: "-1",
     tagList: [],
     cityList: [],
     schoolList: [],
+    hotschoolList: [],
     filterList: [],
     scrollTop: 0,
     scrollHeight: 100,
     returnPage:"",
+    loadingHidden: true,
+
   },
   showInput: function () {
     this.setData({
@@ -168,14 +237,34 @@ Page({
   },
   onLoad: function (option) {
     var that = this;
-    that.setData({
-      inputVal: option.keyword,
-      isSelect: option.isSelect,
-      returnPage: option.returnPage,
-    });
+
+    if (option && option.keyword){
+      that.setData({
+        inputVal: option.keyword,
+      });
+    }
+
+    if (option && option.isSelect) {
+      that.setData({
+        isSelect: option.isSelect,
+      });
+    }
+
+    if (option && option.returnPage) {
+      that.setData({
+        returnPage: option.returnPage,
+      });
+    }
     //loadTagData(that);
-    loadSchoolData(that);
-    loadCityData(that);
+
+    if (that.data.isSelect=='0'){
+      loadHotSchoolData(that);
+      loadSchoolData(that);
+    } else if (that.data.isSelect == '1'){
+
+      loadCityData(that);
+
+    }
     wx.getSystemInfo({
       success: function (res) {
         console.log("res.windowHeight:" + res.windowHeight);

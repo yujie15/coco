@@ -2,9 +2,9 @@
   <view class="page__hd">
     <view class="page__title">关于我们</view>
     <view class="page__desc">
-      <view>一个专为社群和个人打造的活动管理平台；</view>
+      <view>一个专为团体和个人打造的活动管理平台；</view>
       <view>让活动组织更简单；</view>
-      <view>连接社群与个人，活动与个人以及个人与个人。</view>
+      <view>连接团体与个人，活动与个人以及个人与个人。</view>
     </view>
 
 

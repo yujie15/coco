@@ -17,10 +17,20 @@
         </view>
       </view>
     </view>
+    <view class="group-header">上传图片</view>
+    <view class="group-body">
+      <view class="img-upload">
+        <view class="img-add" bindtap="chooseImage"></view>
+        <view class="img-item" bindlongtap="editImage" wx:for="{{uploadimgs}}" wx:key="{{index}}">
+          <icon type="clear" size="20" color="red" style="display:{{editable?'block':'none'}}" bindtap="deleteImg" data-index="{{index}}" />
+          <image src="{{item}}" mode="aspectFill"></image>
+        </view>
+      </view>
+    </view>
   </view>
   <view class="btn-submit">
     <form bindsubmit="applySubmit" report-submit="true">
-      <button formType="submit" class="btn-block btn-blue" hover-class="btn-blue-hover">提交</button>
+      <button formType="submit" class="btn-block btn-blue" hover-class="btn-blue-hover"  disabled="{{disabled}}" >提交</button>
     </form>
   </view>
 
